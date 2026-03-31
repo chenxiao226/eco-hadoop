@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web0
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: web0
+  template:
+    metadata:
+      labels:
+        app: web0
+    spec:
+      containers:
+      - env:
+        - name: MY_CGROUP_MODE
+          value: cgroupfs
+        image: docker.io/jenkins/jenkins:latest
+        imagePullPolicy: IfNotPresent
+        name: jenkins
+        ports:
+        - containerPort: 8080
+          hostPort: 30080
+        resources:
+          limits:
+            cpu: 750m
+            memory: 6Gi
+          requests:
+            cpu: 750m
+            memory: 6Gi
+        volumeMounts:
+        - mountPath: /var/jenkins_home
+          name: workdir
+      nodeSelector:
+        kubernetes.io/hostname: slave1
+      priorityClassName: low-priority
+      restartPolicy: Always
+      volumes:
+      - emptyDir: {}
+        name: workdir

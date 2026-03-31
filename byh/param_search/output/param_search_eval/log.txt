@@ -1,0 +1,78 @@
+DEVICE: "cuda:0"
+EVAL_ONLY: True
+SCALER:
+  MIN_PARAM_1: 10.0
+  MAX_PARAM_1: 100.0
+  MIN_PARAM_2: 0.5
+  MAX_PARAM_2: 0.9
+  MIN_PARAM_3: 100.0
+  MAX_PARAM_3: 300.0
+  MIN_PARAM_4: 0.30
+  MAX_PARAM_4: 1.00
+  MIN_PARAM_5: 0.3
+  MAX_PARAM_5: 0.9
+  MIN_PARAM_6: 100.0
+  MAX_PARAM_6: 1000.0
+  MIN_PARAM_7: 0.0
+  MAX_PARAM_7: 1.0
+  MIN_PARAM_8: 0.0
+  MAX_PARAM_8: 1.0
+  MIN_CPU_FREQ: 800.0
+  MAX_CPU_FREQ: 3200.0
+  MIN_ACTIVE_POWER: 10.0
+  MAX_ACTIVE_POWER: 70.0
+  MIN_RUN_TIME: 15.0
+  MAX_RUN_TIME: 300.0
+DATASET:
+  DATA_DIR: "../cpu_io/dataset"
+  CPU_FREQ: [800, 1000, 1100, 1300, 1500, 1700, 1800, 2000, 2200, 2300, 2500, 2700, 2900, 3000, 3200]
+  CPU_SLICES: [0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0]
+  SDA_SLICES: [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 7.0, 9.0, 15.0]
+  CPU_STEP: 1.0
+  SDA_STEP: 0.1
+  CPU_UPPER_BOUND: 101.0
+  SDA_UPPER_BOUND: 55.0
+  NUM_REMAIN: 5
+MODEL:
+  INPUT_SIZE: 9
+  HIDDEN_SIZE: 64
+  NUM_LAYERS: 6
+  WEIGHTS: "output/param_search_second_train_3_25/model_final.pth"
+ACTIVE_POWER_MODEL:
+  WEIGHTS: "../active_power/output/pagerank/master/model_final.pth"
+CPU_IO_MODEL:
+  WEIGHTS: "../cpu_io/output/pagerank/master/model_final.pth"
+SOLVER:
+  BATCH_SIZE: 512
+  BASE_LR: 0.0001
+  WEIGHT_DECAY: 0.0002
+  STEP_SIZE: 50
+  GAMMA: 0.5
+  LAMBDA: 1.0
+  NUM_EPOCHS: 10
+  T: 100
+  MAX_BUFFER_SIZE: 5000
+  REFINE_STEPS: 3
+  WRITE_PERIOD: 10
+TEST:
+  EVAL_PERIOD: 1
+Start inference on 3 batches:
+Inference done 1/3.
+Inference done 2/3.
+Inference done 3/3.
+Finish inference on 1500 data.
+The best states: tensor([[4.8000e+01, 6.8000e-01, 1.9200e+02, 6.3000e-01, 6.0000e-01, 5.5800e+02,
+         1.0000e+00, 1.0000e+00, 2.0000e+03],
+        [4.8000e+01, 6.7000e-01, 1.9100e+02, 6.3000e-01, 6.0000e-01, 5.5600e+02,
+         1.0000e+00, 1.0000e+00, 2.0000e+03],
+        [4.8000e+01, 6.7000e-01, 1.9100e+02, 6.3000e-01, 6.0000e-01, 5.5500e+02,
+         1.0000e+00, 1.0000e+00, 2.0000e+03],
+        [4.8000e+01, 6.7000e-01, 1.9100e+02, 6.3000e-01, 5.9000e-01, 5.5600e+02,
+         1.0000e+00, 1.0000e+00, 2.0000e+03],
+        [4.8000e+01, 6.7000e-01, 1.9100e+02, 6.3000e-01, 6.0000e-01, 5.5700e+02,
+         1.0000e+00, 1.0000e+00, 2.0000e+03]], device='cuda:0')
+The best energys: tensor([[6801.5684],
+        [6801.5996],
+        [6801.7017],
+        [6801.5186],
+        [6801.8574]], device='cuda:0')

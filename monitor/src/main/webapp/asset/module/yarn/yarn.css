@@ -1,0 +1,71 @@
+.small-box>.inner {
+	/* padding: 10px; */
+	padding: 0px 10px;
+}
+
+.statistic, .loadStatistic {
+	padding-right: 15px;
+}
+.div-hide{
+	display: none;
+}
+.appSpan:link, .appSpan:visited {
+	color: black;
+}
+
+.appSpan:hover, .appSpan:active {
+	color: #2017c5;
+}
+.statistic .list-group .list-group-item {
+	border-radius: 0;
+}
+
+.statistic .list-group .list-group-item:first-child {
+	border-top: 0;
+}
+
+.statistic .list-group .list-group-item {
+	border-radius: 0;
+}
+
+.statistic .list-group .list-group-item:first-child {
+	border-top: 0;
+}
+
+.list-group-item {
+	border-radius: 0px;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+.font-size20 {
+	font-size: 20px;
+}
+
+.font-size30 {
+	font-size: 30px;
+	color: black;
+	cursor: pointer;
+}
+
+.font-size40 {
+	font-size: 40px;
+}
+
+.font-size60 {
+	font-size: 60px;
+	color: green;
+	cursor: pointer;
+}
+
+#sparkAppCount {
+	margin-left: 40px
+}
+
+label:link, label:visited {
+	color: black;
+}
+
+label:hover, label:active {
+	color: #2017c5;
+}

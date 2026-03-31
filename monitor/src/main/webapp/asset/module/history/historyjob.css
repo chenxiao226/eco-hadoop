@@ -1,0 +1,18 @@
+.form-control[readonly]{
+    background-color: white!important;
+}
+
+.oneConditionDiv{
+    margin-right: 10px;
+}
+
+#startCompareBtn{
+    height: 81px;
+    width: 100px;
+    display: none;
+    font-size: 16px;
+}
+
+.cpItemBox{
+    margin-bottom: 10px;
+}

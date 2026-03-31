@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hit.monitor.dao.YarnAppHeuristicResultDetailsDao">
+
+	<!-- 自动生成的有问题 -->
+	<resultMap type="org.hit.monitor.model.YarnAppHeuristicResultDetailsDO"
+		id="YarnAppHeuristicResultDetailsResult">
+		<id property="name" column="name" />
+		<result property="value" column="value" />
+		<result property="details" column="details" />
+	</resultMap>
+
+	<!-- 自己写的，没有包含 details属性 -->
+	<resultMap id="BaseResultMap"
+		type="org.hit.monitor.model.YarnAppHeuristicResultDetailsDO">
+		<id column="yarn_app_heuristic_result_id" property="yarnAppHeuristicResultId"
+			jdbcType="INTEGER" />
+		<id column="name" property="name" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 自己写的，包含 details属性 -->
+	<resultMap id="ResultMapWithBLOBs"
+		type="org.hit.monitor.model.YarnAppHeuristicResultDetailsDO" extends="BaseResultMap">
+		<result column="details" property="details" jdbcType="LONGVARCHAR" />
+	</resultMap>
+
+
+	<sql id="BaseSQL">
+		y.yarn_app_heuristic_result_id,y.name,y.value,y.details
+	</sql>
+
+	<sql id="Condition">
+		1=1
+		<if test="yarnAppHeuristicResultId != null">
+			AND y.yarn_app_heuristic_result_id =
+			#{yarnAppHeuristicResultId}
+		</if>
+		<if test="name != null">
+			AND y.name = #{name}
+		</if>
+		<if test="value != null">
+			AND y.value = #{value}
+		</if>
+		<if test="details != null">
+			AND y.details = #{details}
+		</if>
+	</sql>
+
+	<sql id="ConditionExact">
+		1=1
+		<if test="yarnAppHeuristicResultId != null">
+			AND y.yarn_app_heuristic_result_id =
+			#{yarnAppHeuristicResultId}
+		</if>
+		<if test="name != null">
+			AND y.name = #{name}
+		</if>
+		<if test="value != null">
+			AND y.value = #{value}
+		</if>
+		<if test="details != null">
+			AND y.details = #{details}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询是否存在 -->
+	<select id="selectYarnAppHeuristicResultDetailsCountById"
+		parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT
+		COUNT(1)
+		FROM
+		yarn_app_heuristic_result_details y
+		WHERE
+		y.name=#{name}
+	</select>
+
+	<!-- 根据主键查询 -->
+	<select id="selectYarnAppHeuristicResultDetailsById"
+		parameterType="java.lang.Long" resultMap="YarnAppHeuristicResultDetailsResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_heuristic_result_details y
+		WHERE
+		y.name=#{name}
+	</select>
+
+	<!-- 查询一个，必须传入能唯一确定一个的参数 -->
+	<select id="selectOne"
+		parameterType="org.hit.monitor.bo.QueryYarnAppHeuristicResultDetailsBO"
+		resultMap="YarnAppHeuristicResultDetailsResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_heuristic_result_details y
+		WHERE
+		<include refid="ConditionExact" />
+		LIMIT 1
+	</select>
+
+	<!-- 查询列表，一次最多查出1000条 -->
+	<select id="selectYarnAppHeuristicResultDetailsList"
+		parameterType="org.hit.monitor.bo.QueryYarnAppHeuristicResultDetailsBO"
+		resultMap="YarnAppHeuristicResultDetailsResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_heuristic_result_details y
+		WHERE
+		<include refid="ConditionExact" />
+		LIMIT 1000
+	</select>
+
+	<!-- 分页查找 -->
+	<select id="selectYarnAppHeuristicResultDetailsPage"
+		parameterType="org.hit.monitor.bo.QueryYarnAppHeuristicResultDetailsBO"
+		resultMap="YarnAppHeuristicResultDetailsResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_heuristic_result_details y
+		WHERE
+		<include refid="Condition" />
+		LIMIT #{pageIndex},#{pageSize}
+	</select>
+
+	<!-- 分页计数 -->
+	<select id="selectYarnAppHeuristicResultDetailsCount"
+		parameterType="org.hit.monitor.bo.QueryYarnAppHeuristicResultDetailsBO"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(1)
+		FROM
+		yarn_app_heuristic_result_details y
+		WHERE
+		<include refid="Condition" />
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insertYarnAppHeuristicResultDetails"
+		parameterType="org.hit.monitor.model.YarnAppHeuristicResultDetailsDO"
+		useGeneratedKeys="true" keyProperty="name">
+		INSERT INTO
+		yarn_app_heuristic_result_details(
+		value,
+		details
+		) VALUES (
+		#{value},
+		#{details}
+		)
+	</insert>
+
+	<!-- 测试其中的功能 -->
+	<!-- <insert id="insertBatch"> INSERT INTO yarn_app_heuristic_result_details( 
+		yarn_app_heuristic_result_id, name, value, details ) VALUES <foreach collection="list" 
+		item="item" index="index", separator=","> (#{item.yarnAppHeuristicResultId},#{item.name},#{item.value},#{item.details}) 
+		</foreach> </insert> -->
+
+	<insert id="insertBatch">
+		<!-- <selectKey resultType="INTEGER" keyProperty="id" order="AFTER"> SELECT 
+			LAST_INSERT_ID() </selectKey> -->
+		<!-- <selectKey resultType="INTEGER" keyProperty="id" order="AFTER"> SELECT 
+			LAST_INSERT_ID() </selectKey> -->
+		insert into yarn_app_heuristic_result_details (yarn_app_heuristic_result_id,
+		 name, value, details) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{id},#{item.name},#{item.value},#{item.details})
+		</foreach>
+	</insert>
+
+	<!-- 完全修改 -->
+	<update id="updateYarnAppHeuristicResultDetails"
+		parameterType="org.hit.monitor.model.YarnAppHeuristicResultDetailsDO">
+		UPDATE
+		yarn_app_heuristic_result_details
+		<set>
+			value = #{value},
+			details = #{details}
+		</set>
+		WHERE
+		name=#{name}
+	</update>
+
+	<!-- 选择性修改 -->
+	<update id="updateYarnAppHeuristicResultDetailsSelective"
+		parameterType="org.hit.monitor.model.YarnAppHeuristicResultDetailsDO">
+		UPDATE
+		yarn_app_heuristic_result_details
+		<set>
+			<if test="value != null">
+				value = #{value},
+			</if>
+			<if test="details != null">
+				details = #{details}
+			</if>
+		</set>
+		WHERE
+		name=#{name}
+	</update>
+
+	<!-- 删除 -->
+	<update id="deleteYarnAppHeuristicResultDetails" parameterType="java.lang.Long">
+		UPDATE
+		yarn_app_heuristic_result_details
+		SET
+		is_delete = 1
+		WHERE
+		name=#{name}
+	</update>
+
+	<select id="selectListByAppHeuristicId" parameterType="java.lang.Integer"
+		resultMap="ResultMapWithBLOBs">
+		SELECT
+		<include refid="BaseSQL" />
+		from yarn_app_heuristic_result_details y WHERE
+		yarn_app_heuristic_result_id =
+		#{Id}
+	</select>
+
+</mapper>

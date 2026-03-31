@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>RL Analysis – Optimization Demo</title>
+<base href="/monitor/asset/" />
+<script src="common/js/commonHeadPack.js"></script>
+<link rel="stylesheet" href="module/rl/rl.css">
+<style>
+/* ===== Step Indicator ===== */
+.step-bar {
+  display:flex; align-items:center; margin-bottom:18px;
+  padding:12px 20px; background:#fff; border-radius:8px;
+  box-shadow:0 1px 4px rgba(0,0,0,.1);
+}
+.step-item { display:flex; align-items:center; gap:8px; flex:1; opacity:.38; transition:opacity .3s; }
+.step-item.active { opacity:1; }
+.step-item.done   { opacity:.7; }
+.step-circle {
+  width:32px; height:32px; border-radius:50%; display:flex;
+  align-items:center; justify-content:center; font-weight:700; font-size:14px;
+  flex-shrink:0; background:#ddd; color:#666;
+}
+.step-item.active .step-circle { background:#3c8dbc; color:#fff; }
+.step-item.done   .step-circle { background:#67C23A; color:#fff; }
+.step-label { font-size:13px; font-weight:600; color:#333; }
+.step-sub   { font-size:11px; color:#999; }
+.step-arrow { color:#ccc; font-size:20px; margin:0 6px; flex-shrink:0; }
+
+/* ===== Task Selection Cards ===== */
+.task-cards { display:flex; gap:14px; flex-wrap:wrap; }
+.task-card {
+  flex:1; min-width:155px; border:2px solid #ddd; border-radius:10px;
+  padding:16px 12px; text-align:center; cursor:pointer;
+  background:#fff; transition:all .22s;
+}
+.task-card:hover  { border-color:#3c8dbc; box-shadow:0 2px 8px rgba(60,141,188,.2); }
+.task-card.active { border-color:#3c8dbc; background:#eaf4fb; }
+.task-card .tc-icon { font-size:30px; margin-bottom:6px; }
+.task-card .tc-name { font-weight:700; font-size:14px; color:#333; }
+.task-card .tc-type { font-size:11px; color:#999; margin-top:3px; }
+
+/* ===== Recommendation Cards ===== */
+.rec-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px; margin-top:10px;
+}
+.rec-card {
+  background:#fff; border-radius:8px; padding:13px 15px;
+  border-left:4px solid #3c8dbc;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+.rec-card.warn { border-left-color:#e67e22; }
+.rec-card.good { border-left-color:#67C23A; }
+.rec-param { font-size:11px; color:#999; margin-bottom:2px; }
+.rec-value { font-size:20px; font-weight:700; color:#222; }
+.rec-unit  { font-size:12px; color:#bbb; margin-left:2px; }
+.rec-reason{
+  margin-top:6px; font-size:11px; color:#555;
+  background:#f8f8f8; border-radius:4px; padding:5px 7px; line-height:1.5;
+}
+
+/* ===== Manual Tuning Panel ===== */
+.manual-panel {
+  background:#fff9e6; border:1px solid #fde68a; border-radius:8px; padding:16px 20px;
+}
+.manual-panel h5 { margin:0 0 12px; color:#b45309; font-size:14px; }
+.slider-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+.slider-row label { min-width:140px; font-size:13px; font-weight:600; color:#555; line-height:1.4; }
+.slider-row input[type=range] { flex:1; }
+.slider-row .sv { min-width:95px; font-size:15px; font-weight:700; color:#1d4ed8; text-align:right; }
+.freq-badge {
+  display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; margin-left:4px;
+}
+.freq-badge.low  { background:#dcfce7; color:#166534; }
+.freq-badge.mid  { background:#dbeafe; color:#1e40af; }
+.freq-badge.high { background:#fee2e2; color:#991b1b; }
+
+/* ===== KPI Boxes ===== */
+.kpi-row { display:flex; gap:10px; margin-bottom:12px; }
+.kpi-box {
+  flex:1; background:#fff; border-radius:8px; padding:10px 12px;
+  text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.08);
+}
+.kpi-box .kv { font-size:20px; font-weight:700; }
+.kpi-box .kl { font-size:11px; color:#999; margin-top:2px; }
+
+/* ===== Progress Bars ===== */
+.progress-wrap { margin-top:6px; }
+.progress-label { font-size:12px; color:#666; margin-bottom:3px; display:flex; justify-content:space-between; }
+.progress { height:16px; border-radius:6px; background:#e5e7eb; margin-bottom:6px; overflow:hidden; }
+.progress-bar { height:100%; border-radius:6px; transition:width .5s ease; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#fff; }
+
+/* ===== Live Chart ===== */
+.live-chart { height:200px; }
+
+/* ===== Buttons ===== */
+.btn-run {
+  background:linear-gradient(135deg,#3c8dbc,#1a56a0); color:#fff;
+  border:none; border-radius:8px; padding:10px 26px; font-size:14px; font-weight:600;
+  cursor:pointer; box-shadow:0 3px 10px rgba(60,141,188,.4); transition:all .22s;
+}
+.btn-run:hover { transform:translateY(-1px); box-shadow:0 5px 14px rgba(60,141,188,.5); }
+.btn-run:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+.btn-opt {
+  background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff;
+  border:none; border-radius:8px; padding:10px 26px; font-size:14px; font-weight:600;
+  cursor:pointer; box-shadow:0 3px 10px rgba(245,158,11,.4); transition:all .22s;
+}
+.btn-opt:hover { transform:translateY(-1px); }
+.btn-opt:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
+/* ===== Spinner ===== */
+.spinner {
+  display:inline-block; width:16px; height:16px;
+  border:3px solid rgba(255,255,255,.4); border-top-color:#fff;
+  border-radius:50%; animation:spin .7s linear infinite;
+  vertical-align:middle; margin-right:5px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ===== Info Box ===== */
+.info-box-custom {
+  background:#fff; border-radius:8px; padding:12px 15px;
+  border-left:4px solid #3c8dbc; font-size:13px; color:#444; line-height:1.6;
+}
+.info-box-custom strong { color:#1a56a0; }
+
+/* ===== Summary Bar ===== */
+.summary-bar {
+  background:linear-gradient(135deg,#1e40af,#1d4ed8);
+  border-radius:10px; padding:18px 26px; color:#fff;
+  display:flex; align-items:center; justify-content:space-around;
+  flex-wrap:wrap; gap:14px; margin-bottom:16px;
+}
+.summary-bar .sb-item { text-align:center; }
+.summary-bar .sb-val  { font-size:26px; font-weight:800; }
+.summary-bar .sb-lbl  { font-size:11px; opacity:.8; margin-top:2px; }
+.summary-bar .sb-sep  { width:1px; background:rgba(255,255,255,.3); height:46px; }
+
+/* ===== Three-Column Comparison ===== */
+.tri-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:16px; }
+.tri-col  { border-radius:10px; padding:14px; }
+.tri-col.c-base   { background:#fff3f3; border:2px solid #fca5a5; }
+.tri-col.c-manual { background:#fffbeb; border:2px solid #fde68a; }
+.tri-col.c-ai     { background:#f0fdf4; border:2px solid #86efac; }
+.tri-col h5 { text-align:center; margin:0 0 10px; font-size:14px; }
+.tri-col.c-base   h5 { color:#dc2626; }
+.tri-col.c-manual h5 { color:#d97706; }
+.tri-col.c-ai     h5 { color:#16a34a; }
+
+/* ===== Phase Visibility ===== */
+.phase { display:none; }
+.phase.active { display:block; }
+</style>
+</head>
+<body style="background:#f2f2f2;" class="hold-transition sidebar-mini">
+<script src="common/js/header.js"></script>
+<script src="common/js/slider.js"></script>
+
+<div style="background:#f2f2f2;position:absolute;left:220px;top:75px;width:calc(100% - 220px);bottom:0px">
+<div class="content-wrapper">
+  <div style="background:#f2f2f2;position:absolute;left:0;top:0;width:100%;">
+
+    <section class="content-header">
+      <h1> Interactive Analysis</h1>
+    </section>
+
+    <section class="content">
+
+
+      <!-- ======== Step Bar ======== -->
+      <div class="step-bar">
+        <div class="step-item active" id="si1">
+          <div class="step-circle">1</div>
+          <div><div class="step-label">Select Task</div><div class="step-sub">Choose Workload</div></div>
+        </div>
+        <span class="step-arrow">›</span>
+        <div class="step-item" id="si2">
+          <div class="step-circle">2</div>
+          <div><div class="step-label">Baseline Run</div><div class="step-sub">Default Config (only one round)</div></div>
+        </div>
+        <span class="step-arrow">›</span>
+        <div class="step-item" id="si3">
+          <div class="step-circle">3</div>
+          <div><div class="step-label">AI Recommendation</div><div class="step-sub">Optimized Params</div></div>
+        </div>
+        <span class="step-arrow">›</span>
+        <div class="step-item" id="si4">
+          <div class="step-circle">4</div>
+          <div><div class="step-label">Manual Tuning</div><div class="step-sub">Adjust &amp; Compare</div></div>
+        </div>
+        <span class="step-arrow">›</span>
+        <div class="step-item" id="si5">
+          <div class="step-circle">5</div>
+          <div><div class="step-label">Predict Results</div><div class="step-sub">Side-by-Side</div></div>
+        </div>
+        <span class="step-arrow">›</span>
+        <div class="step-item" id="si6">
+          <div class="step-circle">6</div>
+          <div><div class="step-label">Predict VS Real Energy</div><div class="step-sub">Measured vs Predicted</div></div>
+        </div>
+      </div>
+
+      <!-- ======== Phase 1: Select Task ======== -->
+      <div class="phase active" id="phase1">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-tasks"></i> Select Hadoop Workload</h3>
+          </div>
+          <div class="box-body">
+            <div class="task-cards" id="taskCards"></div>
+            <div style="margin-top:18px;">
+              <div class="info-box-custom">
+                <strong>System Architecture:</strong>
+                This platform integrates three neural network models —
+                <strong>ActivePowerModel</strong> (MLP, predicts node power in W) ·
+                <strong>CPUIOModel</strong> (1D-CNN, jointly models CPU/IO load distributions) ·
+                <strong>ParamEffiRainbow</strong> (GRU + Rainbow DQN, searches for optimal configuration parameters).
+              </div>
+            </div>
+            <div style="margin-top:16px;text-align:right;">
+              <button class="btn-run" id="btnStartBaseline" disabled>
+                <i class="fa fa-play"></i> Start Baseline Run
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======== Phase 2: Baseline Run ======== -->
+      <div class="phase" id="phase2">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">
+              <i class="fa fa-circle" style="color:#dc2626;"></i>
+              Baseline Run — <span id="baselineTaskLabel"></span>
+              <span style="font-size:12px;color:#999;margin-left:8px;">(Default config, no optimization)</span>
+              (only one round)
+            </h3>
+          </div>
+          <div class="box-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div>
+                <div class="kpi-row">
+                  <div class="kpi-box">
+                    <div class="kv" id="bsPower" style="color:#dc2626;">-- W</div>
+                    <div class="kl">Live Power</div>
+                  </div>
+                  <div class="kpi-box">
+                    <div class="kv" id="bsEnergy" style="color:#dc2626;">-- Ws</div>
+                    <div class="kl">Cumul. Energy</div>
+                  </div>
+                  <div class="kpi-box">
+                    <div class="kv" id="bsProg" style="color:#666;">0%</div>
+                    <div class="kl">Progress</div>
+                  </div>
+                </div>
+                <div class="progress-wrap">
+                  <div class="progress-label"><span>Map Phase</span><span id="bsMapPct">0%</span></div>
+                  <div class="progress"><div class="progress-bar" id="bsMapBar" style="width:0;background:#dc2626;"></div></div>
+                  <div class="progress-label"><span>Reduce Phase</span><span id="bsRedPct">0%</span></div>
+                  <div class="progress"><div class="progress-bar" id="bsRedBar" style="width:0;background:#f59e0b;"></div></div>
+                </div>
+                <div id="bsParamTip" style="margin-top:8px;font-size:12px;color:#999;"></div>
+              </div>
+              <div>
+                <div id="bsLiveChart" class="live-chart"></div>
+              </div>
+            </div>
+            <div style="margin-top:16px;text-align:right;">
+              <button class="btn-opt" id="btnOptimize" disabled>
+                <span class="spinner" id="optSpinner" style="display:none;"></span>
+                <i class="fa fa-magic" id="optIcon"></i> RL Analysis &amp; Recommend Parameters
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======== Phase 3: AI Recommendation ======== -->
+      <div class="phase" id="phase3">
+        <div class="box box-warning">
+          <div class="box-header with-border">
+            <h3 class="box-title">
+              <i class="fa fa-lightbulb-o"></i>
+              RL Recommended Config — <span id="recTaskLabel"></span>
+            </h3>
+            <div class="box-tools pull-right">
+              <span style="font-size:12px;padding:3px 10px;background:#f59e0b;color:#fff;border-radius:10px;"
+                    id="lambdaTag">λ=0.10 (Energy Priority)</span>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="rec-grid" id="recGrid"></div>
+            <div style="margin-top:14px;padding:12px 15px;background:#fffbeb;border-radius:8px;border:1px solid #fde68a;">
+              <strong style="color:#92400e;">📊 Decision Rationale:</strong>
+              <div id="recReason" style="margin-top:6px;font-size:13px;color:#78350f;line-height:1.7;"></div>
+            </div>
+            <div style="margin-top:16px;text-align:right;">
+              <button class="btn-run" id="btnGoManual">
+                <i class="fa fa-sliders"></i> Next: Manual Parameter Tuning
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======== Phase 4: Manual Tuning ======== -->
+      <div class="phase" id="phase4">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-sliders"></i> Manual Parameter Tuning (vs AI Recommendation)</h3>
+          </div>
+          <div class="box-body">
+            <div class="manual-panel">
+              <h5>🎛 Adjustable Parameters (drag sliders to observe energy difference vs AI recommendation)</h5>
+              <div class="slider-row">
+                <label>
+                  CPU Frequency Cap
+                  <span class="freq-badge mid" id="freqBadge">Mid</span>
+                </label>
+                <input type="range" id="slCpuFreq" min="800" max="3200" step="100" value="1800">
+                <span class="sv" id="svCpuFreq">1800 MHz</span>
+              </div>
+              <div style="font-size:11px;color:#999;margin-top:-6px;margin-bottom:8px;padding-left:2px;">
+                The actual frequency will be adjusted according to the frequency conditions allowed by the hardware.
+              </div>
+              <div class="slider-row">
+                <label>
+                  Map Concurrency
+                  <span style="font-size:11px;color:#bbb;">(param_1)</span>
+                </label>
+                <input type="range" id="slMapTasks" min="10" max="100" step="2" value="60">
+                <span class="sv" id="svMapTasks">60</span>
+              </div>
+              <div style="margin-top:10px;font-size:12px;color:#777;border-top:1px dashed #e5c97a;padding-top:10px;">
+                <strong>AI Recommended:</strong>
+                CPU Freq <span id="aiFreqHint" style="color:#1d4ed8;font-weight:700;"></span>
+                &nbsp;·&nbsp; Map Tasks <span id="aiMapHint" style="color:#1d4ed8;font-weight:700;"></span>
+              </div>
+            </div>
+
+            <!-- Prediction comparison -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+              <div style="background:#fff8f8;border:1px solid #fca5a5;border-radius:8px;padding:14px;">
+                <div style="font-weight:700;color:#dc2626;margin-bottom:8px;">⚙ Manual Config — Predicted Results</div>
+                <div style="font-size:13px;line-height:1.8;color:#555;">
+                  Predicted Energy: <strong id="manPredE" style="color:#dc2626;">-- Ws</strong><br>
+                  Predicted Runtime: <strong id="manPredT" style="color:#dc2626;">-- s</strong><br>
+                  Savings vs Baseline: <strong id="manSaving">--%</strong>
+                </div>
+              </div>
+              <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:14px;">
+                <div style="font-weight:700;color:#16a34a;margin-bottom:8px;">🤖 RL Recommendation — Predicted Results</div>
+                <div style="font-size:13px;line-height:1.8;color:#555;">
+                  Predicted Energy: <strong id="aiPredE" style="color:#16a34a;">-- Ws</strong><br>
+                  Predicted Runtime: <strong id="aiPredT" style="color:#16a34a;">-- s</strong><br>
+                  Savings vs Baseline: <strong id="aiSaving" style="color:#16a34a;">--%</strong>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:20px;display:flex;justify-content:flex-end;">
+              <button class="btn-run" id="btnRunCompare">
+                <i class="fa fa-rocket"></i> Run Comparison (Manual vs AI)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======== Phase 5: Side-by-Side Comparison ======== -->
+      <div class="phase" id="phase5">
+
+        <!-- Summary bar -->
+        <div class="summary-bar">
+          <div class="sb-item">
+            <div class="sb-val" id="sbTask">--</div>
+            <div class="sb-lbl">Workload</div>
+          </div>
+          <div class="sb-sep"></div>
+          <div class="sb-item">
+            <div class="sb-val" id="sbEDrop">--%</div>
+            <div class="sb-lbl">RL Energy Savings</div>
+          </div>
+          <div class="sb-sep"></div>
+          <div class="sb-item">
+            <div class="sb-val" id="sbTDelta">--s</div>
+            <div class="sb-lbl">Runtime Change (AI)</div>
+          </div>
+          <div class="sb-sep"></div>
+          <div class="sb-item">
+            <div class="sb-val" id="sbManDiff">--%</div>
+            <div class="sb-lbl">Manual vs AI Gap</div>
+          </div>
+        </div>
+
+        <!-- Three-column live dashboard -->
+        <div class="tri-grid">
+          <div class="tri-col c-base">
+            <h5>📌 Baseline (Default Config)</h5>
+            <div class="kpi-row">
+              <div class="kpi-box"><div class="kv" id="c1E" style="color:#dc2626;">--</div><div class="kl">Cumul. Energy</div></div>
+              <div class="kpi-box"><div class="kv" id="c1P" style="color:#dc2626;">--</div><div class="kl">Live Power (W)</div></div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label"><span>Overall Progress</span><span id="c1Pct">--</span></div>
+              <div class="progress"><div class="progress-bar" id="c1Bar" style="width:0;background:#dc2626;"></div></div>
+            </div>
+            <div style="margin-top:8px;font-size:11px;color:#999;" id="c1Desc"></div>
+          </div>
+          <div class="tri-col c-manual">
+            <h5>🎛 Manual Tuning</h5>
+            <div class="kpi-row">
+              <div class="kpi-box"><div class="kv" id="c2E" style="color:#d97706;">--</div><div class="kl">Cumul. Energy</div></div>
+              <div class="kpi-box"><div class="kv" id="c2P" style="color:#d97706;">--</div><div class="kl">Live Power (W)</div></div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label"><span>Overall Progress</span><span id="c2Pct">--</span></div>
+              <div class="progress"><div class="progress-bar" id="c2Bar" style="width:0;background:#f59e0b;"></div></div>
+            </div>
+            <div style="margin-top:8px;font-size:11px;color:#999;" id="c2Desc"></div>
+            <div id="c2Tag" style="margin-top:6px;"></div>
+          </div>
+          <div class="tri-col c-ai">
+            <h5>🤖 RL Optimized</h5>
+            <div class="kpi-row">
+              <div class="kpi-box"><div class="kv" id="c3E" style="color:#16a34a;">--</div><div class="kl">Cumul. Energy</div></div>
+              <div class="kpi-box"><div class="kv" id="c3P" style="color:#16a34a;">--</div><div class="kl">Live Power (W)</div></div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label"><span>Overall Progress</span><span id="c3Pct">--</span></div>
+              <div class="progress"><div class="progress-bar" id="c3Bar" style="width:0;background:#16a34a;"></div></div>
+            </div>
+            <div style="margin-top:8px;font-size:11px;color:#999;" id="c3Desc"></div>
+            <div id="c3Tag" style="margin-top:6px;"></div>
+            <div style="margin-top:12px;">
+              <button onclick="goToPhase6()"
+                style="width:100%;padding:8px 0;border-radius:6px;border:none;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(22,163,74,.35);letter-spacing:.5px;">
+                <i class="fa fa-arrow-right"></i> Apply &amp; View Real Energy
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live power + Cumulative energy + Final result — three in a row -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+          <div class="box" style="margin-bottom:0;">
+            <div class="box-header with-border">
+              <h3 class="box-title"><i class="fa fa-line-chart"></i> Live Power (W)</h3>
+            </div>
+            <div class="box-body">
+              <div id="chartPower" style="height:260px;"></div>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom:0;">
+            <div class="box-header with-border">
+              <h3 class="box-title"><i class="fa fa-area-chart"></i> Cumulative Energy (Ws)</h3>
+            </div>
+            <div class="box-body">
+              <div id="chartCumE" style="height:260px;"></div>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom:0;">
+            <div class="box-header with-border">
+              <h3 class="box-title"><i class="fa fa-bar-chart"></i> Final Result Comparison</h3>
+            </div>
+            <div class="box-body">
+              <div id="chartFinal" style="height:260px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin:10px 0 30px;display:flex;justify-content:center;gap:12px;">
+          <button class="btn-run" onclick="resetAll()">
+            <i class="fa fa-refresh"></i> Restart Demo
+          </button>
+          <button class="btn-run" onclick="document.getElementById('applyModal').style.display='flex'"
+            style="background:linear-gradient(135deg,#16a34a,#15803d);box-shadow:0 3px 10px rgba(22,163,74,.4);">
+            <i class="fa fa-server"></i> Apply to Cluster
+          </button>
+        </div>
+      </div>
+
+      <!-- ======== Phase 6: Predict VS Real Energy ======== -->
+      <div id="phase6" style="display:none;">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-table"></i> Predict VS Real Energy</h3>
+            <div class="box-tools pull-right">
+              <span style="font-size:12px;padding:3px 10px;background:#3c8dbc;color:#fff;border-radius:10px;">
+                ParamEffiRainbow λ=0.10
+              </span>
+            </div>
+          </div>
+          <div class="box-body">
+
+            <!-- Explanation note -->
+            <div style="margin-bottom:16px;padding:10px 14px;background:#f0f4ff;border-left:4px solid #3c8dbc;border-radius:4px;font-size:12px;color:#334155;line-height:1.7;">
+              After applying the RL-recommended configuration, the cluster ran the NNBench job with a real power meter attached.
+              Energy was obtained by integrating the power-meter readings over time (∫ P dt).
+              The table below compares the model's prediction against the actual measured energy, and shows the parameter changes.
+            </div>
+
+            <table style="width:100%;border-collapse:collapse;font-size:13px;">
+              <colgroup>
+                <col style="width:42%">
+                <col style="width:29%">
+                <col style="width:29%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th style="padding:10px 14px;background:#f5f5f5;border:1px solid #ddd;"></th>
+                  <th style="padding:10px 14px;background:#fff3f3;border:1px solid #ddd;color:#dc2626;text-align:center;font-size:14px;">Default Configuration</th>
+                  <th style="padding:10px 14px;background:#f0fdf4;border:1px solid #ddd;color:#16a34a;text-align:center;font-size:14px;">Recommended Configuration</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Row 1: Predicted Energy -->
+                <tr style="background:#fffbeb;">
+                  <td style="padding:10px 14px;border:1px solid #ddd;font-weight:600;color:#92400e;">
+                    Predicted Energy Consumption (KWh)
+                    <div style="font-size:11px;color:#bbb;font-weight:400;margin-top:2px;">Model estimate (ActivePowerModel + GRU integration)</div>
+                  </td>
+                  <td style="padding:10px 14px;border:1px solid #ddd;text-align:center;font-size:15px;font-weight:700;color:#dc2626;">0.002310</td>
+                  <td style="padding:10px 14px;border:1px solid #ddd;text-align:center;font-size:15px;font-weight:700;color:#16a34a;">
+                    0.001722
+                    <div style="font-size:11px;color:#16a34a;font-weight:400;margin-top:2px;">▼ 25.5% predicted saving</div>
+                  </td>
+                </tr>
+                <!-- Row 2: mapreduce.output.fileoutputformat.compress -->
+                <tr style="background:#f8f8f8;">
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    mapreduce.output.fileoutputformat.compress
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">Enable output compression to HDFS</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">On</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#e67e22;">Off</td>
+                </tr>
+                <!-- Separator: actual measured energy -->
+                <tr>
+                  <td colspan="3" style="padding:6px 14px;background:#f0f4ff;border:1px solid #ddd;font-weight:700;color:#1e40af;font-size:12px;letter-spacing:.5px;">
+                    ACTUAL MEASURED ENERGY &nbsp;<span style="font-weight:400;font-size:11px;color:#64748b;">(power meter · ∫ P dt)</span>
+                  </td>
+                </tr>
+                <tr style="background:#f8faff;">
+                  <td style="padding:10px 14px;border:1px solid #ddd;font-weight:600;color:#1e40af;">
+                    Actual Energy Consumption (KWh)
+                    <div style="font-size:11px;color:#bbb;font-weight:400;margin-top:2px;">Measured from real cluster run with power meter</div>
+                  </td>
+                  <td style="padding:10px 14px;border:1px solid #ddd;text-align:center;font-size:15px;font-weight:700;color:#dc2626;">0.002310</td>
+                  <td style="padding:10px 14px;border:1px solid #ddd;text-align:center;font-size:15px;font-weight:700;color:#16a34a;">
+                    0.001682
+                    <div style="font-size:11px;color:#16a34a;font-weight:400;margin-top:2px;">▼ 27.2% actual saving</div>
+                  </td>
+                </tr>
+                <!-- Prediction error -->
+                <tr style="background:#fefce8;">
+                  <td style="padding:8px 14px;border:1px solid #ddd;font-style:italic;color:#a16207;font-size:12px;" colspan="3">
+                    Model prediction error: &nbsp;
+                    <strong style="color:#a16207;">|0.001722 − 0.001682| / 0.001682 = 2.38%</strong>
+                    &nbsp;— prediction closely matches actual measurement.
+                  </td>
+                </tr>
+                <!-- Separator: other params -->
+                <tr>
+                  <td colspan="3" style="padding:6px 14px;background:#f0f4ff;border:1px solid #ddd;font-weight:700;color:#1e40af;font-size:12px;letter-spacing:.5px;">
+                    OTHER HADOOP CONFIGURATION PARAMETERS
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    cpu.frequency.cap
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">OS-level CPU frequency governor</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">800 MHz</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#16a34a;">1000 MHz</td>
+                </tr>
+                <tr style="background:#fafafa;">
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    mapreduce.job.maps
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">Number of Map task slots</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">20</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#16a34a;">65</td>
+                </tr>
+                <tr>
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    mapreduce.job.reduce.slowstart.completedmaps
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">Fraction of maps completed before Reduce starts</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">0.80</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#16a34a;">0.72</td>
+                </tr>
+                <tr style="background:#fafafa;">
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    mapreduce.task.io.sort.mb
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">Sort buffer size per Map task</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">200 MB</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#16a34a;">190 MB</td>
+                </tr>
+                <tr>
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    mapreduce.map.sort.spill.percent
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">Threshold to trigger sort spill to disk</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">0.70</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#16a34a;">0.58</td>
+                </tr>
+                <tr style="background:#fafafa;">
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    mapreduce.task.io.sort.factor
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">Number of streams merged during sort</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">0.6</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#16a34a;">0.60</td>
+                </tr>
+                <tr>
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    mapreduce.map.java.opts / mapreduce.reduce.java.opts
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">JVM heap size for Map/Reduce tasks</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">512 MB</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#16a34a;">660 MB</td>
+                </tr>
+                <tr style="background:#fafafa;">
+                  <td style="padding:9px 14px;border:1px solid #ddd;font-family:monospace;font-size:12px;color:#334155;">
+                    mapreduce.job.map.output.collector.class
+                    <div style="font-size:11px;color:#94a3b8;font-family:sans-serif;">Native Task — bypass JVM serialization</div>
+                  </td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;color:#555;">On</td>
+                  <td style="padding:9px 14px;border:1px solid #ddd;text-align:center;font-weight:700;color:#16a34a;">On</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
+<script src="common/js/footer.js"></script>
+</div>
+
+<!-- ======== Apply to Cluster Modal ======== -->
+<div id="applyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:12px;padding:32px 36px;max-width:480px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center;">
+    <div style="font-size:36px;margin-bottom:12px;">🖥️</div>
+    <div style="font-size:16px;font-weight:700;color:#1e293b;margin-bottom:10px;line-height:1.5;">
+      Should the RL optimiser recommended parameters be applied on Hadoop and the task started immediately?
+    </div>
+    <div style="font-size:12px;color:#94a3b8;margin-bottom:24px;">
+      This will push the recommended configuration to the cluster and submit the NNBench job.
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button onclick="document.getElementById('applyModal').style.display='none';goToPhase6();"
+        style="padding:10px 32px;border-radius:8px;border:none;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(22,163,74,.4);">
+        Yes, Apply
+      </button>
+      <button onclick="document.getElementById('applyModal').style.display='none';"
+        style="padding:10px 32px;border-radius:8px;border:2px solid #e5e7eb;background:#fff;color:#6b7280;font-size:14px;font-weight:700;cursor:pointer;">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="common/js/commonJSPack.js"></script>
+<script src="plugins/echarts/echarts.js"></script>
+<script src="module/rl/analysis.js"></script>
+</body>
+</html>

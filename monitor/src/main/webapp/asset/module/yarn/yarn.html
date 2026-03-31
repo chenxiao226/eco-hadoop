@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>YARN Monitoring</title>
+<base href="/monitor/asset/" />
+<script src="common/js/commonHeadPack.js"></script>
+<link rel="stylesheet" href="module/yarn/yarn.css">
+</head>
+<body style="background:#f2f2f2;" class="hold-transition sidebar-mini">
+<script src="common/js/header.js"></script>
+<script src="common/js/slider.js"></script>
+
+<div style="background:#f2f2f2;position:absolute;left:220px;top:75px;width:calc(100% - 220px);bottom:0px">
+<div class="content-wrapper">
+  <div style="background:#f2f2f2;position:absolute;left:0;top:0;width:100%;">
+
+    <section class="content-header">
+      <h1>YARN Monitoring</h1>
+    </section>
+
+    <section class="content">
+
+      <!-- Info boxes row -->
+      <div class="row">
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-server"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Active NMs</span>
+              <span id="nm-active" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-exclamation-triangle"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Lost NMs</span>
+              <span id="nm-lost" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-database"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Avail MB</span>
+              <span id="memAvailable" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-tasks"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Alloc MB</span>
+              <span id="memAllocated" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-teal"><i class="fa fa-microchip"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Avail Cores</span>
+              <span id="coresAvailable" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-orange"><i class="fa fa-cogs"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Alloc Cores</span>
+              <span id="coresAllocated" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts row -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="box">
+            <div class="box-body">
+              <div id="nmChart" style="height:280px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="box">
+            <div class="box-body">
+              <div id="memChart" style="height:280px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="box">
+            <div class="box-body">
+              <div id="coresChart" style="height:280px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
+<script src="common/js/footer.js"></script>
+</div>
+
+<script src="common/js/commonJSPack.js"></script>
+<script src="plugins/echarts/echarts.js"></script>
+<script src="module/yarn/yarnCharts.js"></script>
+</body>
+</html>

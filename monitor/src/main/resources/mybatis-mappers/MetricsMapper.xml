@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hit.monitor.dao.MetricsDataDao">
+	<resultMap type="org.hit.monitor.model.MetricsDataDO" id="MetricsResult">
+		<id property="id" column="id" />
+		<result property="sum" column="sum" />
+		<result property="num" column="num" />
+		<result property="processTime" column="process_time" />
+	</resultMap>
+	
+	<sql id="BaseSQL">
+		m.sum,m.num,m.process_time
+	</sql>
+	
+	<sql id="Condition">
+		1=1
+		<if test="start != null">
+			AND m.process_time &gt;= ${start}
+		</if>
+		<if test="end != null">
+			AND m.process_time &lt;= ${end}
+		</if>
+	</sql>
+	
+	<sql id="ConditionExact">
+		1=1
+		<if test="start != null">
+			AND m.process_time &gt;= ${start}
+		</if>
+		<if test="end != null">
+			AND m.process_time &lt;= ${end}
+		</if>
+	</sql>
+
+	<!-- 查询列表，一次最多查出10000条 -->
+	<select id="selectMetricsList" parameterType="org.hit.monitor.bo.QueryMetricsBO" resultMap="MetricsResult" statementType="STATEMENT">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			`${metricsName}` m
+		WHERE
+			<include refid="ConditionExact" />
+		<if test="desc == true">
+			ORDER BY m.id DESC
+		</if>
+		<if test="limit != null">
+			LIMIT ${limit}
+		</if>
+		<if test="limit == null">
+			LIMIT 10000
+		</if>
+	</select>
+	
+	<!-- 分页查找 -->
+	<select id="selectMetricsPage" parameterType="org.hit.monitor.bo.QueryMetricsBO" resultMap="MetricsResult" statementType="STATEMENT">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			`${metricsName}` m
+		WHERE
+			<include refid="Condition" />
+		<if test="desc == true">
+			ORDER BY m.id DESC
+		</if>
+		LIMIT ${pageIndex},${pageSize}
+	</select>
+	
+	<!-- 分页计数 -->
+	<select id="selectMetricsCount" parameterType="org.hit.monitor.bo.QueryMetricsBO" resultType="java.lang.Integer" statementType="STATEMENT">
+		SELECT 
+			COUNT(1)
+		FROM 
+			`${metricsName}` m
+		WHERE
+			<include refid="Condition" />
+	</select>
+	
+	<!-- 按照指定条件删除数据 -->
+	<delete id="deleteMetricsData" parameterType="org.hit.monitor.bo.QueryMetricsBO" statementType="STATEMENT">
+		DELETE FROM 
+			`${metricsName}`
+		WHERE
+			process_time &gt;= ${start}
+			AND process_time &lt;= ${end}
+	</delete>
+
+</mapper>

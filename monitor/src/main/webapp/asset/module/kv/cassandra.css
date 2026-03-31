@@ -1,0 +1,23 @@
+.appStatistic, .loadStatistic {
+	padding-right: 15px;
+}
+
+.appStatistic .list-group .list-group-item {
+	border-radius: 0px;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+.appStatistic .list-group .list-group-item:first-child {
+	border-top: 0;
+}
+
+.loadStatistic .list-group .list-group-item {
+	border-radius: 0px;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+.loadStatistic .list-group .list-group-item:first-child {
+	border-top: 0;
+}

@@ -1,0 +1,19 @@
+# Maven 编译产物
+target/
+bin/
+
+# 真实配置文件（含敏感信息，用 monitor.properties.example 替代）
+src/main/resources/monitor.properties
+
+# IDE 配置
+.idea/
+.classpath
+.project
+.settings/
+
+# Claude Code
+.claude/
+
+# 系统文件
+.DS_Store
+Thumbs.db

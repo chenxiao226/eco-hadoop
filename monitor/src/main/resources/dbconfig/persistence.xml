@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd
+     http://www.springframework.org/schema/mvc
+     http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+     http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
+
+	<!-- c3p0连接池配置 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<!-- 连接数据库的驱动 -->
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<!-- 连接数据库的URL -->
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<!-- 用户名 -->
+		<property name="user" value="${jdbc.username}" />
+		<!-- 密码 -->
+		<property name="password" value="${jdbc.password}" />
+		<!-- 连接池中保留的最小连接数，默认为：3 -->
+		<property name="minPoolSize" value="10" />
+		<!-- 连接池中保留的最大连接数。默认值: 15 -->
+		<property name="maxPoolSize" value="15" />
+		<!-- 初始化连接池中的连接数，取值应在minPoolSize与maxPoolSize之间，默认为3 -->
+		<property name="initialPoolSize" value="3" />
+		<!-- 最大空闲时间，超过空闲时间的连接将被丢弃。为0或负数则永不丢弃。默认为0 -->
+		<property name="maxIdleTime" value="180" />
+		<!-- 定义所有连接测试都执行的测试语句 -->
+		<property name="preferredTestQuery" value="SELECT 1"/>
+		<!-- 隔多少秒检查所有连接池中的空闲连接，默认为0表示不检查 -->
+		<property name="idleConnectionTestPeriod" value="3600"/>
+	</bean>
+
+
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="mapperLocations" value="classpath:mybatis-mappers/*.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+
+	<!-- 事务管理器(在service层面上实现事务管理) -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+
+	<!-- 事务模板 -->
+	<bean id="transactionTemplate"
+		class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+	</bean>
+
+
+
+</beans>

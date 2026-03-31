@@ -1,0 +1,76 @@
+#appinfo{
+	height: 220px;
+}
+.form-group {
+	margin-left: 15px
+}
+
+.heuristicname {
+	padding-left: 20px;
+	height:39px;
+	line-height:39px;
+}
+
+.section1 {
+	padding: 5px 20px;
+}
+
+.heuristic_a {
+	font-size: 14px;
+}
+
+.kg_row {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.kg_box {
+	border-top: 3px solid #ffffff;
+	border-bottom: 3px solid #d2d6de;
+	margin-bottom: 0px;
+	margin-left: 15px;
+	width: auto;
+	margin-right: 15px;
+}
+
+.kg_header {
+	border-bottom: 3px solid #d2d6de;
+}
+
+.font-size20 {
+	font-size: 20px;
+}
+
+.font-size30 {
+	font-size: 30px;
+}
+
+.font-size40 {
+	font-size: 40px;
+}
+
+.font-size60 {
+	font-size: 60px;
+	line-height:60px;
+}
+.detail_a {
+	position: absolute;
+	float: right;
+	right: 24px;
+	bottom: 26px;
+	font-size: 20px
+}
+
+.metricsLittleBoxHead{
+	margin-top: 6px;
+}
+
+.reourceTypeLabel{
+	font-size: 15px;
+	position: relative;
+	top: -4px;
+}
+
+.summaryInfoHeader{
+	border-bottom: 0px!important;
+}

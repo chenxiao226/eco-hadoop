@@ -1,0 +1,279 @@
+DEVICE: "cuda:0"
+EVAL_ONLY: False
+SCALER:
+  MIN_PARAM_1: 10.0
+  MAX_PARAM_1: 100.0
+  MIN_PARAM_2: 0.5
+  MAX_PARAM_2: 0.9
+  MIN_PARAM_3: 100.0
+  MAX_PARAM_3: 300.0
+  MIN_PARAM_4: 0.30
+  MAX_PARAM_4: 1.00
+  MIN_PARAM_5: 0.3
+  MAX_PARAM_5: 0.9
+  MIN_PARAM_6: 100.0
+  MAX_PARAM_6: 1000.0
+  MIN_PARAM_7: 0.0
+  MAX_PARAM_7: 1.0
+  MIN_PARAM_8: 0.0
+  MAX_PARAM_8: 1.0
+  MIN_CPU_FREQ: 800.0
+  MAX_CPU_FREQ: 3200.0
+  MIN_ACTIVE_POWER: 10.0
+  MAX_ACTIVE_POWER: 70.0
+  MIN_RUN_TIME: 15.0
+  MAX_RUN_TIME: 300.0
+DATASET:
+  DATA_DIR: "dataset"
+  CPU_FREQ: [800, 1000, 1100, 1300, 1500, 1700, 1800, 2000, 2200, 2300, 2500, 2700, 2900, 3000, 3200]
+MODEL:
+  INPUT_SIZE: 3
+  OUTPUT_SIZE: 1
+  BOTTLENECK_SIZES: [3, 64, 512, 512, 64, 8]
+SOLVER:
+  BATCH_SIZE: 2048
+  BASE_LR: 0.001
+  WEIGHT_DECAY: 0.0002
+  STEP_SIZE: 3000
+  GAMMA: 0.5
+  NUM_EPOCHS: 10000
+  WRITE_PERIOD: 500
+TEST:
+  EVAL_PERIOD: 1000
+Starting training from iteration 0.
+epoch:    500 , iter:    500, loss: 0.004559559281915426
+epoch:   1000 , iter:   1000, loss: 0.0043611545115709305
+Saving checkpoint to ./output/Jenkins/web0/model_01000.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.005125610916702835, bce_loss: 0.5928316712379456, relative_error: 0.13339544832706451
+epoch:   1500 , iter:   1500, loss: 0.003991882782429457
+epoch:   2000 , iter:   2000, loss: 0.003916857298463583
+Saving checkpoint to ./output/Jenkins/web0/model_02000.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.0053701231509079165, bce_loss: 0.5934670567512512, relative_error: 0.1123322993516922
+epoch:   2500 , iter:   2500, loss: 0.0032149855978786945
+epoch:   3000 , iter:   3000, loss: 0.002688362030312419
+Saving checkpoint to ./output/Jenkins/web0/model_03000.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.010089391543541425, bce_loss: 0.6036348342895508, relative_error: 0.1703481376171112
+Saving checkpoint to ./output/Jenkins/web0/model_final.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.010089391543541425, bce_loss: 0.6036348342895508, relative_error: 0.1703481376171112
+DEVICE: "cuda:0"
+EVAL_ONLY: False
+SCALER:
+  MIN_PARAM_1: 10.0
+  MAX_PARAM_1: 100.0
+  MIN_PARAM_2: 0.5
+  MAX_PARAM_2: 0.9
+  MIN_PARAM_3: 100.0
+  MAX_PARAM_3: 300.0
+  MIN_PARAM_4: 0.30
+  MAX_PARAM_4: 1.00
+  MIN_PARAM_5: 0.3
+  MAX_PARAM_5: 0.9
+  MIN_PARAM_6: 100.0
+  MAX_PARAM_6: 1000.0
+  MIN_PARAM_7: 0.0
+  MAX_PARAM_7: 1.0
+  MIN_PARAM_8: 0.0
+  MAX_PARAM_8: 1.0
+  MIN_CPU_FREQ: 800.0
+  MAX_CPU_FREQ: 3200.0
+  MIN_ACTIVE_POWER: 10.0
+  MAX_ACTIVE_POWER: 70.0
+  MIN_RUN_TIME: 15.0
+  MAX_RUN_TIME: 300.0
+DATASET:
+  DATA_DIR: "dataset"
+  CPU_FREQ: [800, 1000, 1100, 1300, 1500, 1700, 1800, 2000, 2200, 2300, 2500, 2700, 2900, 3000, 3200]
+MODEL:
+  INPUT_SIZE: 3
+  OUTPUT_SIZE: 1
+  BOTTLENECK_SIZES: [3, 64, 512, 512, 64, 8]
+SOLVER:
+  BATCH_SIZE: 2048
+  BASE_LR: 0.001
+  WEIGHT_DECAY: 0.0002
+  STEP_SIZE: 3000
+  GAMMA: 0.5
+  NUM_EPOCHS: 10000
+  WRITE_PERIOD: 500
+TEST:
+  EVAL_PERIOD: 1000
+Starting training from iteration 0.
+epoch:    500 , iter:    500, loss: 0.004414315335452557
+epoch:   1000 , iter:   1000, loss: 0.0045968350023031235
+Saving checkpoint to ./output/Jenkins/web0/model_01000.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.004716099044423045, bce_loss: 0.5918546319007874, relative_error: 0.12458528578281403
+epoch:   1500 , iter:   1500, loss: 0.004479869268834591
+epoch:   2000 , iter:   2000, loss: 0.003493398195132613
+Saving checkpoint to ./output/Jenkins/web0/model_02000.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.005784490962087372, bce_loss: 0.594350278377533, relative_error: 0.1340043544769287
+epoch:   2500 , iter:   2500, loss: 0.002769319573417306
+epoch:   3000 , iter:   3000, loss: 0.0025890497490763664
+Saving checkpoint to ./output/Jenkins/web0/model_03000.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.007003135151333279, bce_loss: 0.5975771546363831, relative_error: 0.13997045159339905
+epoch:   3500 , iter:   3500, loss: 0.0015021045692265034
+epoch:   4000 , iter:   4000, loss: 0.001325002289377153
+Saving checkpoint to ./output/Jenkins/web0/model_04000.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.00918226330368607, bce_loss: 0.6033149361610413, relative_error: 0.16530726850032806
+epoch:   4500 , iter:   4500, loss: 0.001128559815697372
+epoch:   5000 , iter:   5000, loss: 0.0011481514666229486
+Saving checkpoint to ./output/Jenkins/web0/model_05000.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.009427375263637967, bce_loss: 0.6041450500488281, relative_error: 0.16532251238822937
+Saving checkpoint to ./output/Jenkins/web0/model_final.pth.
+Start inference on 1 batches:
+Finish inference on 324 data.
+mse_loss: 0.009427375263637967, bce_loss: 0.6041450500488281, relative_error: 0.16532251238822937
+DEVICE: "cuda:0"
+EVAL_ONLY: False
+SCALER:
+  MIN_PARAM_1: 10.0
+  MAX_PARAM_1: 100.0
+  MIN_PARAM_2: 0.5
+  MAX_PARAM_2: 0.9
+  MIN_PARAM_3: 100.0
+  MAX_PARAM_3: 300.0
+  MIN_PARAM_4: 0.30
+  MAX_PARAM_4: 1.00
+  MIN_PARAM_5: 0.3
+  MAX_PARAM_5: 0.9
+  MIN_PARAM_6: 100.0
+  MAX_PARAM_6: 1000.0
+  MIN_PARAM_7: 0.0
+  MAX_PARAM_7: 1.0
+  MIN_PARAM_8: 0.0
+  MAX_PARAM_8: 1.0
+  MIN_CPU_FREQ: 800.0
+  MAX_CPU_FREQ: 3200.0
+  MIN_ACTIVE_POWER: 10.0
+  MAX_ACTIVE_POWER: 70.0
+  MIN_RUN_TIME: 15.0
+  MAX_RUN_TIME: 300.0
+DATASET:
+  DATA_DIR: "dataset"
+  CPU_FREQ: [800, 1000, 1100, 1300, 1500, 1700, 1800, 2000, 2200, 2300, 2500, 2700, 2900, 3000, 3200]
+MODEL:
+  INPUT_SIZE: 3
+  OUTPUT_SIZE: 1
+  BOTTLENECK_SIZES: [3, 64, 512, 512, 64, 8]
+SOLVER:
+  BATCH_SIZE: 2048
+  BASE_LR: 0.001
+  WEIGHT_DECAY: 0.0002
+  STEP_SIZE: 3000
+  GAMMA: 0.5
+  NUM_EPOCHS: 10000
+  WRITE_PERIOD: 500
+TEST:
+  EVAL_PERIOD: 1000
+Starting training from iteration 0.
+epoch:     39 , iter:    500, loss: 0.10387168824672699
+epoch:     77 , iter:   1000, loss: 0.08822178840637207
+epoch:    116 , iter:   1500, loss: 0.0781647115945816
+epoch:    154 , iter:   2000, loss: 0.06864325702190399
+epoch:    193 , iter:   2500, loss: 0.05914074927568436
+epoch:    231 , iter:   3000, loss: 0.05151855945587158
+epoch:    270 , iter:   3500, loss: 0.04261717200279236
+epoch:    308 , iter:   4000, loss: 0.03643251210451126
+epoch:    347 , iter:   4500, loss: 0.030882274731993675
+epoch:    385 , iter:   5000, loss: 0.026032589375972748
+epoch:    424 , iter:   5500, loss: 0.020573455840349197
+epoch:    462 , iter:   6000, loss: 0.017641063779592514
+epoch:    500 , iter:   6500, loss: 0.014054971747100353
+epoch:    539 , iter:   7000, loss: 0.01165805198252201
+epoch:    577 , iter:   7500, loss: 0.009846905246376991
+epoch:    616 , iter:   8000, loss: 0.008058363571763039
+epoch:    654 , iter:   8500, loss: 0.00680007878690958
+epoch:    693 , iter:   9000, loss: 0.005505373701453209
+epoch:    731 , iter:   9500, loss: 0.004537430126219988
+epoch:    770 , iter:  10000, loss: 0.003860532771795988
+epoch:    808 , iter:  10500, loss: 0.003157392144203186
+epoch:    847 , iter:  11000, loss: 0.002509721089154482
+epoch:    885 , iter:  11500, loss: 0.002027657348662615
+epoch:    924 , iter:  12000, loss: 0.0016549046849831939
+epoch:    962 , iter:  12500, loss: 0.0014658104628324509
+epoch:   1000 , iter:  13000, loss: 0.0015085310442373157
+Saving checkpoint to ./output/Jenkins/web0/model_01000.pth.
+Start inference on 4 batches:
+Finish inference on 6253 data.
+mse_loss: 0.001296514056309612, bce_loss: 0.5528865456581116, relative_error: 0.07239203155040741
+epoch:   1039 , iter:  13500, loss: 0.0010533244349062443
+epoch:   1077 , iter:  14000, loss: 0.0007964017568156123
+epoch:   1116 , iter:  14500, loss: 0.0007486824179068208
+epoch:   1154 , iter:  15000, loss: 0.0008091035997495055
+epoch:   1193 , iter:  15500, loss: 0.00076605926733464
+epoch:   1231 , iter:  16000, loss: 0.0004662302089855075
+epoch:   1270 , iter:  16500, loss: 0.0009704658878035843
+epoch:   1308 , iter:  17000, loss: 0.00047428367543034256
+epoch:   1347 , iter:  17500, loss: 0.0010796913411468267
+epoch:   1385 , iter:  18000, loss: 0.00043504807399585843
+epoch:   1424 , iter:  18500, loss: 0.0014864446129649878
+epoch:   1462 , iter:  19000, loss: 0.0007801699684932828
+epoch:   1500 , iter:  19500, loss: 0.00043146521784365177
+epoch:   1539 , iter:  20000, loss: 0.000489136204123497
+epoch:   1577 , iter:  20500, loss: 0.0007046721293590963
+epoch:   1616 , iter:  21000, loss: 0.000775564752984792
+epoch:   1654 , iter:  21500, loss: 0.0004696489777415991
+epoch:   1693 , iter:  22000, loss: 0.0004903393564745784
+epoch:   1731 , iter:  22500, loss: 0.00034887492074631155
+epoch:   1770 , iter:  23000, loss: 0.00037191700539551675
+epoch:   1808 , iter:  23500, loss: 0.0004450945998542011
+epoch:   1847 , iter:  24000, loss: 0.00030097432318143547
+epoch:   1885 , iter:  24500, loss: 0.0005683779017999768
+epoch:   1924 , iter:  25000, loss: 0.0003538487944751978
+epoch:   1962 , iter:  25500, loss: 0.0003356222587171942
+epoch:   2000 , iter:  26000, loss: 0.000374534196453169
+Saving checkpoint to ./output/Jenkins/web0/model_02000.pth.
+Start inference on 4 batches:
+Finish inference on 6253 data.
+mse_loss: 0.0001848291325107796, bce_loss: 0.5501653552055359, relative_error: 0.011738667264580727
+epoch:   2039 , iter:  26500, loss: 0.0006007132469676435
+epoch:   2077 , iter:  27000, loss: 0.0003599535848479718
+epoch:   2116 , iter:  27500, loss: 0.0003126494702883065
+epoch:   2154 , iter:  28000, loss: 0.0002173555112676695
+epoch:   2193 , iter:  28500, loss: 0.0009568053064867854
+epoch:   2231 , iter:  29000, loss: 0.00042791481246240437
+epoch:   2270 , iter:  29500, loss: 0.0003159989428240806
+epoch:   2308 , iter:  30000, loss: 0.00020827385014854372
+epoch:   2347 , iter:  30500, loss: 0.00020453812612686306
+epoch:   2385 , iter:  31000, loss: 0.0002165759651688859
+epoch:   2424 , iter:  31500, loss: 0.00031514011789113283
+epoch:   2462 , iter:  32000, loss: 0.0002184431068599224
+epoch:   2500 , iter:  32500, loss: 0.0002570844371803105
+epoch:   2539 , iter:  33000, loss: 0.0001662654394749552
+epoch:   2577 , iter:  33500, loss: 0.0002223821938969195
+epoch:   2616 , iter:  34000, loss: 0.00019262127170804888
+epoch:   2654 , iter:  34500, loss: 0.0003455984406173229
+epoch:   2693 , iter:  35000, loss: 0.00020850877626799047
+epoch:   2731 , iter:  35500, loss: 0.00017825988470576704
+epoch:   2770 , iter:  36000, loss: 0.00022517300385516137
+epoch:   2808 , iter:  36500, loss: 0.000201354778255336
+epoch:   2847 , iter:  37000, loss: 0.0002634548582136631
+epoch:   2885 , iter:  37500, loss: 0.00021187608945183456
+epoch:   2924 , iter:  38000, loss: 0.0003193230659235269
+epoch:   2962 , iter:  38500, loss: 0.00032504703267477453
+epoch:   3000 , iter:  39000, loss: 0.0017661481397226453
+Saving checkpoint to ./output/Jenkins/web0/model_03000.pth.
+Start inference on 4 batches:
+Finish inference on 6253 data.
+mse_loss: 0.0001617903406669974, bce_loss: 0.5501249432563782, relative_error: 0.016294537112116814
+Saving checkpoint to ./output/Jenkins/web0/model_final.pth.
+Start inference on 4 batches:
+Finish inference on 6253 data.
+mse_loss: 0.0001617903406669974, bce_loss: 0.5501249432563782, relative_error: 0.016294537112116814

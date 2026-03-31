@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <base href="/monitor/asset/"/>
+  <script src="common/js/commonHeadPack.js"></script>
+  <style>
+    .info-box { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .stat-label { font-size: 12px; color: #888; margin-bottom: 2px; }
+    .stat-value { font-size: 22px; font-weight: bold; }
+  </style>
+</head>
+<body style="background:#f2f2f2;" class="hold-transition sidebar-mini">
+<script src="common/js/header.js"></script>
+<script src="common/js/slider.js"></script>
+<div style="background:#f2f2f2;position:absolute;left:220px;top:75px;width:calc(100% - 220px);bottom:0px">
+<div class="content-wrapper">
+  <div style="position:absolute;left:0;top:0;width:100%;">
+
+    <section class="content-header">
+      <h1>Real-Time Cluster Data Dashboard</h1>
+      <!-- breadcrumb hidden -->
+    </section>
+
+    <section class="content">
+
+      <!-- Row 1: Cluster summary info-boxes -->
+      <div class="row">
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-server"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Total Nodes</span>
+              <span id="co-total-nodes" class="info-box-number">3</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-check-circle"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Alive Nodes</span>
+              <span id="co-alive-nodes" class="info-box-number">3</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-microchip"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">CPU Cores</span>
+              <span id="co-cpu-num" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-blue"><i class="fa fa-database"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Total Memory</span>
+              <span id="co-mem-total" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-teal"><i class="fa fa-hdd-o"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">HDFS Total</span>
+              <span id="co-disk-total" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-tasks"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Running Apps</span>
+              <span id="co-running-apps" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Live metrics -->
+      <div class="row">
+        <div class="col-md-3 col-sm-6">
+          <div class="box">
+            <div class="box-header with-border"><h3 class="box-title">CPU</h3></div>
+            <div class="box-body">
+              <div class="stat-label">Idle</div>
+              <div id="co-cpu-idle" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">User</div>
+              <div id="co-cpu-user" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">System</div>
+              <div id="co-cpu-sys" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">I/O Wait</div>
+              <div id="co-cpu-wio" class="stat-value">--</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="box">
+            <div class="box-header with-border"><h3 class="box-title">Load &amp; Processes</h3></div>
+            <div class="box-body">
+              <div class="stat-label">Load Avg (1 min)</div>
+              <div id="co-load1" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">RPC Avg Time</div>
+              <div id="co-rpc" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">Running Processes</div>
+              <div id="co-proc-run" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">Total Processes</div>
+              <div id="co-proc-total" class="stat-value">--</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="box">
+            <div class="box-header with-border"><h3 class="box-title">Memory</h3></div>
+            <div class="box-body">
+              <div class="stat-label">Free Memory</div>
+              <div id="co-mem-free" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">Used Memory</div>
+              <div id="co-mem-used" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">HDFS Free</div>
+              <div id="co-disk-free" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">HDFS Used</div>
+              <div id="co-disk-used" class="stat-value">--</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="box">
+            <div class="box-header with-border"><h3 class="box-title">DataNodes</h3></div>
+            <div class="box-body">
+              <div class="stat-label">Live DataNodes</div>
+              <div id="co-dn-live" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">Dead DataNodes</div>
+              <div id="co-dn-dead" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">Decommissioned</div>
+              <div id="co-dn-decom" class="stat-value">--</div>
+              <div class="stat-label" style="margin-top:8px">HDFS % Used</div>
+              <div id="co-dn-pct" class="stat-value">--</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: MapReduce app stats -->
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-play-circle"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Running Jobs</span>
+              <span id="co-app-running" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-blue"><i class="fa fa-check"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Finished Jobs</span>
+              <span id="co-app-finished" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-times-circle"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Failed Jobs</span>
+              <span id="co-app-failed" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-ban"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Killed Jobs</span>
+              <span id="co-app-killed" class="info-box-number">--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
+<script src="common/js/footer.js"></script>
+</div>
+
+<script src="common/js/commonJSPack.js"></script>
+<script src="module/node/node_list.js"></script>
+</body>
+</html>

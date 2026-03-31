@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hit.monitor.dao.YarnAppResultDao">
+	<resultMap type="org.hit.monitor.model.YarnAppResultDO" id="YarnAppResultResult">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="username" column="username" />
+		<result property="queueName" column="queue_name" />
+		<result property="startTime" column="start_time" />
+		<result property="finishTime" column="finish_time" />
+		<result property="trackingUrl" column="tracking_url" />
+		<result property="jobType" column="job_type" />
+		<result property="severity" column="severity" />
+		<result property="score" column="score" />
+		<result property="workflowDepth" column="workflow_depth" />
+		<result property="scheduler" column="scheduler" />
+		<result property="jobName" column="job_name" />
+		<result property="jobExecId" column="job_exec_id" />
+		<result property="flowExecId" column="flow_exec_id" />
+		<result property="jobDefId" column="job_def_id" />
+		<result property="flowDefId" column="flow_def_id" />
+		<result property="jobExecUrl" column="job_exec_url" />
+		<result property="flowExecUrl" column="flow_exec_url" />
+		<result property="jobDefUrl" column="job_def_url" />
+		<result property="flowDefUrl" column="flow_def_url" />
+		<result property="resourceUsed" column="resource_used" />
+		<result property="resourceWasted" column="resource_wasted" />
+		<result property="totalDelay" column="total_delay" />
+	</resultMap>
+
+	<sql id="BaseSQL">
+		y.id,y.name,y.username,y.queue_name,y.start_time,y.finish_time,y.tracking_url,y.job_type,y.severity,y.score,y.workflow_depth,y.scheduler,y.job_name,y.job_exec_id,y.flow_exec_id,y.job_def_id,y.flow_def_id,y.job_exec_url,y.flow_exec_url,y.job_def_url,y.flow_def_url,y.resource_used,y.resource_wasted,y.total_delay
+	</sql>
+
+	<sql id="Condition">
+		1=1
+		<if test="id != null">
+			AND y.id = #{id}
+		</if>
+		<if test="name != null">
+			AND y.name = #{name}
+		</if>
+		<if test="username != null">
+			AND y.username = #{username}
+		</if>
+		<if test="queueName != null">
+			AND y.queue_name = #{queueName}
+		</if>
+		<if test="startTime != null">
+			AND y.start_time = #{startTime}
+		</if>
+		<if test="finishTime != null">
+			AND y.finish_time = #{finishTime}
+		</if>
+		<if test="trackingUrl != null">
+			AND y.tracking_url = #{trackingUrl}
+		</if>
+		<if test="jobType != null">
+			AND y.job_type = #{jobType}
+		</if>
+		<if test="severity != null">
+			AND y.severity = #{severity}
+		</if>
+		<if test="score != null">
+			AND y.score = #{score}
+		</if>
+		<if test="workflowDepth != null">
+			AND y.workflow_depth = #{workflowDepth}
+		</if>
+		<if test="scheduler != null">
+			AND y.scheduler = #{scheduler}
+		</if>
+		<if test="jobName != null">
+			AND y.job_name = #{jobName}
+		</if>
+		<if test="jobExecId != null">
+			AND y.job_exec_id = #{jobExecId}
+		</if>
+		<if test="flowExecId != null">
+			AND y.flow_exec_id = #{flowExecId}
+		</if>
+		<if test="jobDefId != null">
+			AND y.job_def_id = #{jobDefId}
+		</if>
+		<if test="flowDefId != null">
+			AND y.flow_def_id = #{flowDefId}
+		</if>
+		<if test="jobExecUrl != null">
+			AND y.job_exec_url = #{jobExecUrl}
+		</if>
+		<if test="flowExecUrl != null">
+			AND y.flow_exec_url = #{flowExecUrl}
+		</if>
+		<if test="jobDefUrl != null">
+			AND y.job_def_url = #{jobDefUrl}
+		</if>
+		<if test="flowDefUrl != null">
+			AND y.flow_def_url = #{flowDefUrl}
+		</if>
+		<if test="resourceUsed != null">
+			AND y.resource_used = #{resourceUsed}
+		</if>
+		<if test="resourceWasted != null">
+			AND y.resource_wasted = #{resourceWasted}
+		</if>
+		<if test="totalDelay != null">
+			AND y.total_delay = #{totalDelay}
+		</if>
+	</sql>
+
+	<sql id="ConditionExact">
+		1=1
+		<if test="id != null">
+			AND y.id = #{id}
+		</if>
+		<if test="name != null">
+			AND y.name = #{name}
+		</if>
+		<if test="username != null">
+			AND y.username = #{username}
+		</if>
+		<if test="queueName != null">
+			AND y.queue_name = #{queueName}
+		</if>
+		<if test="startTime != null">
+			AND y.start_time = #{startTime}
+		</if>
+		<if test="finishTime != null">
+			AND y.finish_time = #{finishTime}
+		</if>
+		<if test="trackingUrl != null">
+			AND y.tracking_url = #{trackingUrl}
+		</if>
+		<if test="jobType != null">
+			AND y.job_type = #{jobType}
+		</if>
+		<if test="severity != null">
+			AND y.severity = #{severity}
+		</if>
+		<if test="score != null">
+			AND y.score = #{score}
+		</if>
+		<if test="workflowDepth != null">
+			AND y.workflow_depth = #{workflowDepth}
+		</if>
+		<if test="scheduler != null">
+			AND y.scheduler = #{scheduler}
+		</if>
+		<if test="jobName != null">
+			AND y.job_name = #{jobName}
+		</if>
+		<if test="jobExecId != null">
+			AND y.job_exec_id = #{jobExecId}
+		</if>
+		<if test="flowExecId != null">
+			AND y.flow_exec_id = #{flowExecId}
+		</if>
+		<if test="jobDefId != null">
+			AND y.job_def_id = #{jobDefId}
+		</if>
+		<if test="flowDefId != null">
+			AND y.flow_def_id = #{flowDefId}
+		</if>
+		<if test="jobExecUrl != null">
+			AND y.job_exec_url = #{jobExecUrl}
+		</if>
+		<if test="flowExecUrl != null">
+			AND y.flow_exec_url = #{flowExecUrl}
+		</if>
+		<if test="jobDefUrl != null">
+			AND y.job_def_url = #{jobDefUrl}
+		</if>
+		<if test="flowDefUrl != null">
+			AND y.flow_def_url = #{flowDefUrl}
+		</if>
+		<if test="resourceUsed != null">
+			AND y.resource_used = #{resourceUsed}
+		</if>
+		<if test="resourceWasted != null">
+			AND y.resource_wasted = #{resourceWasted}
+		</if>
+		<if test="totalDelay != null">
+			AND y.total_delay = #{totalDelay}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询是否存在 -->
+	<select id="selectYarnAppResultCountById" parameterType="java.lang.Long"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(1)
+		FROM
+		yarn_app_result y
+		WHERE
+		y.id=#{id}
+	</select>
+
+	<!-- 根据主键查询 -->
+	<select id="selectYarnAppResultById" parameterType="java.lang.Long"
+		resultMap="YarnAppResultResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_result y
+		WHERE
+		y.id=#{id}
+	</select>
+
+    <!-- 根据主键查询 -->
+	<select id="selectYarnAppResultByAppId" parameterType="java.lang.String"
+		resultMap="YarnAppResultResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_result y
+		WHERE
+		y.id=#{id}
+	</select>
+	
+	<!-- 获得最后的分析时间-->
+	<select id="getLastYarnAppResultResult" resultMap="YarnAppResultResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_result y order by finish_time desc limit 0,1
+	</select>
+	
+	<!-- 查询一个，必须传入能唯一确定一个的参数 -->
+	<select id="selectOne" parameterType="org.hit.monitor.bo.QueryYarnAppResultBO"
+		resultMap="YarnAppResultResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_result y
+		WHERE
+		<include refid="ConditionExact" />
+		LIMIT 1
+	</select>
+
+	<!-- 查询列表，一次最多查出1000条 -->
+	<select id="selectYarnAppResultList" parameterType="org.hit.monitor.bo.QueryYarnAppResultBO"
+		resultMap="YarnAppResultResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_result y
+		WHERE
+		<include refid="ConditionExact" />
+		LIMIT 1000
+	</select>
+
+	<sql id="Condition2">
+		1=1
+		<if test="startTime != null">
+			AND y.start_time &gt;= #{startTime}
+		</if>
+		<if test="finishTime != null">
+			AND y.start_time &lt;= #{finishTime}
+		</if>
+		<if test="jobType != null">
+			AND y.job_type &lt;= #{jobType}
+		</if>
+		<if test="name != null">
+			AND y.name like CONCAT('%',#{name},'%')
+		</if>
+	</sql>
+
+	<!-- 分页查找 -->
+	<select id="selectYarnAppResultPage" parameterType="org.hit.monitor.bo.QueryYarnAppResultBO"
+		resultMap="YarnAppResultResult">
+		SELECT
+		<include refid="BaseSQL" />
+		FROM
+		yarn_app_result y
+		WHERE
+		<include refid="Condition2" />
+		ORDER BY y.id DESC
+		LIMIT #{pageIndex},#{pageSize}
+	</select>
+
+	<!-- 分页计数 -->
+	<select id="selectYarnAppResultCount" parameterType="org.hit.monitor.bo.QueryYarnAppResultBO"
+		resultType="java.lang.Integer">
+		SELECT
+		COUNT(1)
+		FROM
+		yarn_app_result y
+		WHERE
+		<include refid="Condition2" />
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insertYarnAppResult" parameterType="org.hit.monitor.model.YarnAppResultDO">
+		INSERT INTO yarn_app_result(
+		id,
+		name,
+		username,
+		queue_name,
+		start_time,
+		finish_time,
+		tracking_url,
+		job_type,
+		severity,
+		score,
+		workflow_depth,
+		scheduler,
+		job_name,
+		job_exec_id,
+		flow_exec_id,
+		job_def_id,
+		flow_def_id,
+		job_exec_url,
+		flow_exec_url,
+		job_def_url,
+		flow_def_url,
+		resource_used,
+		resource_wasted,
+		total_delay
+		) VALUES (
+		#{id},
+		#{name},
+		#{username},
+		#{queueName},
+		#{startTime},
+		#{finishTime},
+		#{trackingUrl},
+		#{jobType},
+		#{severity},
+		#{score},
+		#{workflowDepth},
+		#{scheduler},
+		#{jobName},
+		#{jobExecId},
+		#{flowExecId},
+		#{jobDefId},
+		#{flowDefId},
+		#{jobExecUrl},
+		#{flowExecUrl},
+		#{jobDefUrl},
+		#{flowDefUrl},
+		#{resourceUsed},
+		#{resourceWasted},
+		#{totalDelay}
+		)
+	</insert>
+
+	<!-- 完全修改 -->
+	<update id="updateYarnAppResult" parameterType="org.hit.monitor.model.YarnAppResultDO">
+		UPDATE
+		yarn_app_result
+		<set>
+			name = #{name},
+			username = #{username},
+			queue_name = #{queueName},
+			start_time = #{startTime},
+			finish_time = #{finishTime},
+			tracking_url =
+			#{trackingUrl},
+			job_type = #{jobType},
+			severity = #{severity},
+			score =
+			#{score},
+			workflow_depth = #{workflowDepth},
+			scheduler = #{scheduler},
+			job_name = #{jobName},
+			job_exec_id = #{jobExecId},
+			flow_exec_id =
+			#{flowExecId},
+			job_def_id = #{jobDefId},
+			flow_def_id = #{flowDefId},
+			job_exec_url = #{jobExecUrl},
+			flow_exec_url = #{flowExecUrl},
+			job_def_url = #{jobDefUrl},
+			flow_def_url = #{flowDefUrl},
+			resource_used = #{resourceUsed},
+			resource_wasted = #{resourceWasted},
+			total_delay = #{totalDelay}
+		</set>
+		WHERE
+		id=#{id}
+	</update>
+
+	<!-- 选择性修改 -->
+	<update id="updateYarnAppResultSelective" parameterType="org.hit.monitor.model.YarnAppResultDO">
+		UPDATE
+		yarn_app_result
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="username != null">
+				username = #{username},
+			</if>
+			<if test="queueName != null">
+				queue_name = #{queueName},
+			</if>
+			<if test="startTime != null">
+				start_time = #{startTime},
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime},
+			</if>
+			<if test="trackingUrl != null">
+				tracking_url = #{trackingUrl},
+			</if>
+			<if test="jobType != null">
+				job_type = #{jobType},
+			</if>
+			<if test="severity != null">
+				severity = #{severity},
+			</if>
+			<if test="score != null">
+				score = #{score},
+			</if>
+			<if test="workflowDepth != null">
+				workflow_depth = #{workflowDepth},
+			</if>
+			<if test="scheduler != null">
+				scheduler = #{scheduler},
+			</if>
+			<if test="jobName != null">
+				job_name = #{jobName},
+			</if>
+			<if test="jobExecId != null">
+				job_exec_id = #{jobExecId},
+			</if>
+			<if test="flowExecId != null">
+				flow_exec_id = #{flowExecId},
+			</if>
+			<if test="jobDefId != null">
+				job_def_id = #{jobDefId},
+			</if>
+			<if test="flowDefId != null">
+				flow_def_id = #{flowDefId},
+			</if>
+			<if test="jobExecUrl != null">
+				job_exec_url = #{jobExecUrl},
+			</if>
+			<if test="flowExecUrl != null">
+				flow_exec_url = #{flowExecUrl},
+			</if>
+			<if test="jobDefUrl != null">
+				job_def_url = #{jobDefUrl},
+			</if>
+			<if test="flowDefUrl != null">
+				flow_def_url = #{flowDefUrl},
+			</if>
+			<if test="resourceUsed != null">
+				resource_used = #{resourceUsed},
+			</if>
+			<if test="resourceWasted != null">
+				resource_wasted = #{resourceWasted},
+			</if>
+			<if test="totalDelay != null">
+				total_delay = #{totalDelay}
+			</if>
+		</set>
+		WHERE
+		id=#{id}
+	</update>
+
+	<!-- 删除 -->
+	<update id="deleteYarnAppResult" parameterType="java.lang.Long">
+		UPDATE
+		yarn_app_result
+		SET
+		is_delete = 1
+		WHERE
+		id=#{id}
+	</update>
+
+</mapper>

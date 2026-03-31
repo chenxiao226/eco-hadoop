@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <base href="/monitor/asset/"/>
+    <!-- 所有页面公用CSS和Head信息 -->
+    <script src="common/js/commonHeadPack.js"></script>
+    <link rel="stylesheet" href="module/graph/cassandra.css">
+</head>
+<!-- <body class="hold-transition skin-blue sidebar-mini fixed"> -->
+<body style="background:#f2f2f2;"class="hold-transition  sidebar-mini ">
+	<script src="common/js/header.js"></script>
+	<script src="common/js/slider.js"></script>
+	<div style="background:#f2f2f2;position:absolute;left:220px;top:75px;width:calc(100% - 220px);bottom:0px">
+	<div >
+	<!-- <div class="wrapper"> -->
+
+		<div class="content-wrapper">
+		  <div style="background:#f2f2f2;position:absolute;left:0%;top:0px;width:100%;">
+			<section class="content-header">
+				<h1>
+					KVStore监控<small></small>
+				</h1><!-- breadcrumb hidden -->
+			</section>
+			<section class="content">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box box-success">
+						<div class="box-header with-border">
+							<i class="fa  fa-opencart"></i>
+							<h3 class="box-title">KVStore </h3>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-6">
+									<dl class="dl-horizontal">
+										<dt>Memtable数据总量：</dt>
+										<dd id="MemtableLiveDataSize">N/A</dd>
+										<dt>Memtable列总数：</dt>
+										<dd id="MemtableColumnsCount">N/A</dd>
+										<dt>内部异常：</dt>
+										<dd id="Exceptions">N/A</dd>														
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<dl class="dl-horizontal">
+										<!-- <dt>被逐出预编译语句数：</dt>
+										<dd id="PreparedStatementsEvicted">N/A</dd>	 -->								
+										<dt>已执行预编译语句数：</dt>
+										<dd id="PreparedStatementsExecuted">N/A</dd>
+										<dt>未执行预编译语句数：</dt>
+										<dd id="RegularStatementsExecuted">N/A</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="box">
+									<div class="row">
+										<div class="col-md-10 col-sm-10 col-xs-12">
+											<!-- 线程池指标信息 -->
+											<div id="cassandra_thread" style="width: 100%; height: 400px;"></div>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<div class="appStatistic">
+												<ul class="list-group">
+													<li class="list-group-item"><b>线程池指标：</b></li>
+													<li class="list-group-item">&nbsp;最大线程数：<span
+														id="MaxPoolSize">N/A</span></li>														
+													<li class="list-group-item">&nbsp;完成任务数：<span
+														id="CompletedTasks">N/A</span></li>													
+													<li class="list-group-item">&nbsp;运行任务数：<span
+														id="ActiveTasks">N/A</span></li>																	
+													<li class="list-group-item">&nbsp;排队任务数：<span
+														id="PendingTasks">N/A</span></li>
+													
+													
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="box">
+									<div class="row">
+										<div class="col-md-10 col-sm-10 col-xs-12">
+											<!-- 缓存命中率相关的信息 -->
+											<div id="cache_ratio" style="width: 100%; height: 400px;"></div>
+										</div>
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<div class="appStatistic">
+												<ul class="list-group">
+													<li class="list-group-item"><b>KeyCache指标：</b></li>
+													<li class="list-group-item">&nbsp;缓存命中总数：<span
+														id="Hitcounts">N/A</span></li>
+													<li class="list-group-item">&nbsp;1min缓存命中率：<span
+														id="OneMinuteRate">N/A</span></li>
+														<li class="list-group-item">&nbsp;5min缓存命中率：<span
+														id="FiveMinuteRate">N/A</span></li>
+														<li class="list-group-item">&nbsp;缓存总命中率：<span
+														id="HitRate">N/A</span></li>
+													
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			</div>
+		</div>
+		
+		<script src="common/js/footer.js"></script>	
+	</div>
+	
+	
+	<script src="common/js/commonJSPack.js"></script>
+	<script src="plugins/echarts/echarts.js"></script>
+	<script src="module/kv/cassandra.js"></script>
+	<script src="module/kv/thread.js"></script>
+	<script src="module/kv/cache_ratio.js"></script>
+</body>
+</html>
