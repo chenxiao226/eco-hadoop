@@ -1,5 +1,0 @@
-jQuery 2.2.3
-Bootstrap 3.3.6
-fastclick
-Sparkline
-SlimScroll 1.3.0
