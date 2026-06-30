@@ -1,0 +1,24 @@
+# Build outputs
+target/
+bin/
+*.class
+*.war
+
+# Local runtime configuration
+src/main/resources/monitor.properties
+src/test/resources/monitor.properties
+
+# IDE and editor files
+.idea/
+.settings/
+.classpath
+.project
+*.iml
+
+# Local assistant/tool state
+.claude/
+.codex/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hit.monitor.dao.HistoryStrDao">
+	<resultMap type="org.hit.monitor.model.HistoryStrDO" id="HistoryStrResult">
+		<id property="itemid" column="itemid" />
+		<result property="itemid" column="itemid" />
+		<result property="clock" column="clock" />
+		<result property="value" column="value" />
+		<result property="ns" column="ns" />
+	</resultMap>
+	
+	<sql id="BaseSQL">
+		h.itemid,h.clock,h.value,h.ns
+	</sql>
+	
+	<sql id="Condition">
+		1=1
+		<if test="itemid != null">
+			AND h.itemid = #{itemid}
+		</if>
+		<if test="clock != null">
+			AND h.clock = #{clock}
+		</if>
+		<if test="value != null">
+			AND h.value = #{value}
+		</if>
+		<if test="ns != null">
+			AND h.ns = #{ns}
+		</if>
+	</sql>
+	
+	<sql id="ConditionExact">
+		1=1
+		<if test="itemid != null">
+			AND h.itemid = #{itemid}
+		</if>
+		<if test="clock != null">
+			AND h.clock = #{clock}
+		</if>
+		<if test="value != null">
+			AND h.value = #{value}
+		</if>
+		<if test="ns != null">
+			AND h.ns = #{ns}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询是否存在 -->
+	<select id="selectHistoryStrCountById" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT
+			 COUNT(1)
+		FROM 
+			history_str h
+		WHERE 
+			h.itemid=#{itemid}
+	</select>
+	
+	<!-- 根据主键查询 -->
+	<select id="selectHistoryStrById" parameterType="java.lang.Long" resultMap="HistoryStrResult">
+		SELECT
+			 <include refid="BaseSQL" />
+		FROM 
+			history_str h
+		WHERE 
+			h.itemid=#{itemid}
+	</select>
+
+	<!-- 查询一个，必须传入能唯一确定一个的参数 -->
+	<select id="selectOne" parameterType="org.hit.monitor.bo.QueryHistoryStrBO" resultMap="HistoryStrResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			history_str h
+		WHERE
+			<include refid="ConditionExact" />
+		LIMIT 1
+	</select>
+	
+	<!-- 查询列表，一次最多查出1000条 -->
+	<select id="selectHistoryStrList" parameterType="org.hit.monitor.bo.QueryHistoryStrBO" resultMap="HistoryStrResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			history_str h
+		WHERE
+			<include refid="ConditionExact" />
+		LIMIT 1000
+	</select>
+	
+	<!-- 分页查找 -->
+	<select id="selectHistoryStrPage" parameterType="org.hit.monitor.bo.QueryHistoryStrBO" resultMap="HistoryStrResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			history_str h
+		WHERE
+			<include refid="Condition" />
+		LIMIT #{pageIndex},#{pageSize}
+	</select>
+	
+	<!-- 分页计数 -->
+	<select id="selectHistoryStrCount" parameterType="org.hit.monitor.bo.QueryHistoryStrBO" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(1)
+		FROM 
+			history_str h
+		WHERE
+			<include refid="Condition" />
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insertHistoryStr" parameterType="org.hit.monitor.model.HistoryStrDO" useGeneratedKeys="true" keyProperty="itemid">
+		INSERT INTO history_str(
+			itemid,
+			clock,
+			value,
+			ns
+		) VALUES (
+			#{itemid},
+			#{clock},
+			#{value},
+			#{ns}
+		)
+	</insert>
+
+	<!-- 完全修改 -->
+	<update id="updateHistoryStr" parameterType="org.hit.monitor.model.HistoryStrDO">
+		UPDATE 
+			history_str 
+		<set>
+			itemid = #{itemid},
+			clock = #{clock},
+			value = #{value},
+			ns = #{ns}
+		</set>
+		WHERE 
+			itemid=#{itemid}
+	</update>
+	
+	<!-- 选择性修改 -->
+	<update id="updateHistoryStrSelective" parameterType="org.hit.monitor.model.HistoryStrDO">
+		UPDATE 
+			history_str 
+		<set>
+			<if test="itemid != null">
+				itemid = #{itemid},
+			</if>
+			<if test="clock != null">
+				clock = #{clock},
+			</if>
+			<if test="value != null">
+				value = #{value},
+			</if>
+			<if test="ns != null">
+				ns = #{ns}
+			</if>
+		</set>
+		WHERE 
+			itemid=#{itemid}
+	</update>
+
+	<!-- 删除 -->
+	<update id="deleteHistoryStr" parameterType="java.lang.Long">
+		UPDATE 
+			history_str
+		SET
+			is_delete = 1
+		WHERE 
+			itemid=#{itemid}
+	</update>
+
+</mapper>

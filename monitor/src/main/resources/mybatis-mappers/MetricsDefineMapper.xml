@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hit.monitor.dao.MetricsDefineDao">
+	<resultMap type="org.hit.monitor.model.MetricsDefineDO" id="MetricsDefineResult">
+		<id property="metricsId" column="metrics_id" />
+		<result property="name" column="name" />
+		<result property="step" column="step" />
+		<result property="dataSourceType" column="data_source_type" />
+	</resultMap>
+
+	<sql id="BaseSQL">
+		m.metrics_id,m.name,m.step,m.data_source_type
+	</sql>
+
+	<sql id="Condition">
+		1=1
+		<if test="metricsId != null">
+			AND m.metrics_id = #{metricsId}
+		</if>
+		<if test="name != null">
+			AND m.name = #{name}
+		</if>
+		<if test="step != null">
+			AND m.step = #{step}
+		</if>
+		<if test="dataSourceType != null">
+			AND m.data_source_type = #{dataSourceType}
+		</if>
+	</sql>
+
+	<sql id="ConditionExact">
+		1=1
+		<if test="metricsId != null">
+			AND m.metrics_id = #{metricsId}
+		</if>
+		<if test="name != null">
+			AND m.name = #{name}
+		</if>
+		<if test="step != null">
+			AND m.step = #{step}
+		</if>
+		<if test="dataSourceType != null">
+			AND m.data_source_type = #{dataSourceType}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询是否存在 -->
+	<select id="selectMetricsDefineCountById" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT
+			 COUNT(1)
+		FROM 
+			metrics_define m
+		WHERE 
+			m.metrics_id=#{metricsId}
+	</select>
+	
+	<!-- 根据主键查询 -->
+	<select id="selectMetricsDefineById" parameterType="java.lang.Long" resultMap="MetricsDefineResult">
+		SELECT
+			 <include refid="BaseSQL" />
+		FROM 
+			metrics_define m
+		WHERE 
+			m.metrics_id=#{metricsId}
+	</select>
+
+	<!-- 查询一个，必须传入能唯一确定一个的参数 -->
+	<select id="selectOne" parameterType="org.hit.monitor.bo.QueryMetricsDefineBO" resultMap="MetricsDefineResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			metrics_define m
+		WHERE
+			<include refid="ConditionExact" />
+		LIMIT 1
+	</select>
+	
+	<!-- 查询列表，一次最多查出10000条 -->
+	<select id="selectMetricsDefineList" parameterType="org.hit.monitor.bo.QueryMetricsDefineBO" resultMap="MetricsDefineResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			metrics_define m
+		WHERE
+			<include refid="ConditionExact" />
+	</select>
+	
+	<!-- 分页查找 -->
+	<select id="selectMetricsDefinePage" parameterType="org.hit.monitor.bo.QueryMetricsDefineBO" resultMap="MetricsDefineResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			metrics_define m
+		WHERE
+			<include refid="Condition" />
+		LIMIT #{pageIndex},#{pageSize}
+	</select>
+	
+	<!-- 分页计数 -->
+	<select id="selectMetricsDefineCount" parameterType="org.hit.monitor.bo.QueryMetricsDefineBO" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(1)
+		FROM 
+			metrics_define m
+		WHERE
+			<include refid="Condition" />
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insertMetricsDefine" parameterType="org.hit.monitor.model.MetricsDefineDO" useGeneratedKeys="true" keyProperty="metricsId">
+		INSERT INTO metrics_define(
+			name,
+			step,
+			data_source_type
+		) VALUES (
+			#{name},
+			#{step},
+			#{dataSourceType}
+		)
+	</insert>
+
+	<!-- 完全修改 -->
+	<update id="updateMetricsDefine" parameterType="org.hit.monitor.model.MetricsDefineDO">
+		UPDATE 
+			metrics_define 
+		<set>
+			name = #{name},
+			step = #{step},
+			data_source_type = #{dataSourceType}
+		</set>
+		WHERE 
+			metrics_id=#{metricsId}
+	</update>
+	
+	<!-- 选择性修改 -->
+	<update id="updateMetricsDefineSelective" parameterType="org.hit.monitor.model.MetricsDefineDO">
+		UPDATE 
+			metrics_define 
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="step != null">
+				step = #{step},
+			</if>
+			<if test="dataSourceType != null">
+				data_source_type = #{dataSourceType}
+			</if>
+		</set>
+		WHERE 
+			metrics_id=#{metricsId}
+	</update>
+
+	<!-- 删除 -->
+	<update id="deleteMetricsDefine" parameterType="java.lang.Long">
+		UPDATE 
+			metrics_define
+		SET
+			is_delete = 1
+		WHERE 
+			metrics_id=#{metricsId}
+	</update>
+
+</mapper>

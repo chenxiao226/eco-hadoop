@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<base href="/monitor/asset/"/>
+	<!-- 所有页面公用CSS和Head信息 -->
+	<script src="common/js/commonHeadPack.js"></script>
+	<!-- 与 history detail有关-->
+	<link rel="stylesheet" href="module/history/historydetail.css">
+</head>
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+<div class="wrapper">
+	<!-- 顶部导航 -->
+	<script src="common/js/header.js"></script>
+
+	<!-- 左侧功能列表，包含logo和菜单 -->
+	<script src="common/js/slider.js"></script>
+
+	<!-- 主体内容 -->
+	<div class="content-wrapper">
+
+		<!-- 内容头 -->
+		<section class="content-header">
+			<h1>
+				历史任务分析
+				<small></small>
+			</h1><!-- breadcrumb hidden -->
+
+		</section>
+		<!-- 历史任务信息 -->
+		<section class="content">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="box box box-info" id="appinfo">
+						<div class="box-body pad">
+							<div class="panel-heading overlay" id="appJob">
+							    <i class="fa fa-refresh fa-spin" id="spinicon"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="box box-info overlay">
+					 
+						<div class="box-header with-border kg_header pad summaryInfoHeader">
+							<div class="panel-heading overlay">
+							  <i class="fa fa-refresh fa-spin" id="spinicon2"></i>
+								<div>
+									<label class="font-size30">总体评分：</label>&nbsp;&nbsp;
+									<label class="font-size60" id="total_score">N/A</label><!--  <a class="detail_a" href=""> 优化建议 >>></a>  -->
+								</div>
+								<hr />
+								<div>
+									<label class="font-size20">该任务所属类型：</label>&nbsp;&nbsp;
+									<span class="label label-default font-size20 reourceTypeLabel" id="reourceTypeLabel">N/A</span>
+								</div>
+							</div>
+						</div>
+						<div class="box-body">
+							<div id="kg_context"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+
+
+<!-- 尾部信息，包含版权版本等 -->
+<script src="common/js/footer.js"></script>
+
+<!-- 所有页面公用的JS -->
+<script src="common/js/commonJSPack.js"></script>
+<!-- historyjobDetail.html有关的js -->
+<script src="module/history/historyjobDetail.js"></script>
+<!-- jQuery Knob -->
+<script src="plugins/knob/jquery.knob.js"></script>
+
+
+</body>
+</html>

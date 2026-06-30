@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper 
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hit.monitor.dao.AlertTriggerDao">
+	<resultMap type="org.hit.monitor.model.AlertTriggerDO" id="AlertTriggerResult">
+		<id property="id" column="id" />
+		<result property="host" column="host" />
+		<result property="triggerId" column="trigger_id" />
+		<result property="triggerDes" column="trigger_des" />
+		<result property="severity" column="severity" />
+		<result property="status" column="status" />
+		<result property="info" column="info" />
+		<result property="time" column="time" />
+	</resultMap>
+	
+	<sql id="BaseSQL">
+		a.id,a.host,a.trigger_id,a.trigger_des,a.severity,a.status,a.info,a.time
+	</sql>
+	
+	<sql id="Condition">
+		1=1
+		<if test="id != null">
+			AND a.id = #{id}
+		</if>
+		<if test="host != null">
+			AND a.host = #{host}
+		</if>
+		<if test="triggerId != null">
+			AND a.trigger_id = #{triggerId}
+		</if>
+		<if test="severity != null">
+			AND a.severity = #{severity}
+		</if>
+		<if test="status != null">
+			AND a.status = #{status}
+		</if>
+		<if test="start != null">
+			AND a.time &gt;= #{start}
+		</if>
+		<if test="end != null">
+			AND a.time &lt;= #{end}
+		</if>
+	</sql>
+	
+	<sql id="ConditionExact">
+		1=1
+		<if test="id != null">
+			AND a.id = #{id}
+		</if>
+		<if test="host != null">
+			AND a.host = #{host}
+		</if>
+		<if test="triggerId != null">
+			AND a.trigger_id = #{triggerId}
+		</if>
+		<if test="triggerDes != null">
+			AND a.trigger_des like CONCAT('%', #{triggerDes}, '%')
+		</if>
+		<if test="severity != null">
+			AND a.severity = #{severity}
+		</if>
+		<if test="status != null">
+			AND a.status = #{status}
+		</if>
+		<if test="start != null">
+			AND a.time &gt;= #{start}
+		</if>
+		<if test="end != null">
+			AND a.time &lt;= #{end}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询是否存在 -->
+	<select id="selectAlertTriggerCountById" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT
+			 COUNT(1)
+		FROM 
+			alert_trigger a
+		WHERE 
+			a.id=#{id}
+	</select>
+	
+	<!-- 根据主键查询 -->
+	<select id="selectAlertTriggerById" parameterType="java.lang.Long" resultMap="AlertTriggerResult">
+		SELECT
+			 <include refid="BaseSQL" />
+		FROM 
+			alert_trigger a
+		WHERE 
+			a.id=#{id}
+	</select>
+
+	<!-- 查询一个，必须传入能唯一确定一个的参数 -->
+	<select id="selectOne" parameterType="org.hit.monitor.bo.QueryAlertTriggerBO" resultMap="AlertTriggerResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			alert_trigger a
+		WHERE
+			<include refid="ConditionExact" />
+		LIMIT 1
+	</select>
+	
+	<!-- 查询列表，一次最多查出1000条 -->
+	<select id="selectAlertTriggerList" parameterType="org.hit.monitor.bo.QueryAlertTriggerBO" resultMap="AlertTriggerResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			alert_trigger a
+		WHERE
+			<include refid="ConditionExact" />
+		ORDER BY
+			a.time DESC
+		<if test="limit != null">
+			LIMIT #{limit}
+		</if>
+	</select>
+	
+	<!-- 分页查找 -->
+	<select id="selectAlertTriggerPage" parameterType="org.hit.monitor.bo.QueryAlertTriggerBO" resultMap="AlertTriggerResult">
+		SELECT 
+			<include refid="BaseSQL" />
+		FROM 
+			alert_trigger a
+		WHERE
+			<include refid="Condition" />
+		ORDER BY
+			a.time DESC
+		LIMIT #{pageIndex},#{pageSize}
+	</select>
+	
+	<!-- 分页计数 -->
+	<select id="selectAlertTriggerCount" parameterType="org.hit.monitor.bo.QueryAlertTriggerBO" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(1)
+		FROM 
+			alert_trigger a
+		WHERE
+			<include refid="Condition" />
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insertAlertTrigger" parameterType="org.hit.monitor.model.AlertTriggerDO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO alert_trigger(
+			host,
+			trigger_id,
+			trigger_des,
+			severity,
+			status,
+			info,
+			time
+		) VALUES (
+			#{host},
+			#{triggerId},
+			#{triggerDes},
+			#{severity},
+			#{status},
+			#{info},
+			#{time}
+		)
+	</insert>
+
+	<!-- 完全修改 -->
+	<update id="updateAlertTrigger" parameterType="org.hit.monitor.model.AlertTriggerDO">
+		UPDATE 
+			alert_trigger 
+		<set>
+			host = #{host},
+			trigger_id = #{triggerId},
+			trigger_des = #{triggerDes},
+			severity = #{severity},
+			status = #{status},
+			info = #{info},
+			time = #{time}
+		</set>
+		WHERE 
+			id=#{id}
+	</update>
+	
+	<!-- 选择性修改 -->
+	<update id="updateAlertTriggerSelective" parameterType="org.hit.monitor.model.AlertTriggerDO">
+		UPDATE 
+			alert_trigger 
+		<set>
+			<if test="host != null">
+				host = #{host},
+			</if>
+			<if test="triggerId != null">
+				trigger_id = #{triggerId},
+			</if>
+			<if test="triggerDes != null">
+				trigger_des = #{triggerDes},
+			</if>
+			<if test="severity != null">
+				severity = #{severity},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="info != null">
+				info = #{info},
+			</if>
+			<if test="time != null">
+				time = #{time}
+			</if>
+		</set>
+		WHERE 
+			id=#{id}
+	</update>
+</mapper>

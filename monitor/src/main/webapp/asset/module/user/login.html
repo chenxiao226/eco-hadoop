@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<base href="/monitor/asset/"/>
+	
+	<script src="common/js/commonHeadPack.js"></script>
+	<script src="module/user/login.js"></script>
+	<style>
+		body {
+			height: auto;
+			background: #2b2a27 !important;
+		}
+
+		.login-box {
+			width: 540px;
+			padding: 60px;
+			-webkit-box-shadow: 0px 0px 20px #000;
+			-moz-box-shadow: 0px 0px 20px #000;
+			box-shadow: 0px 0px 20px #000;
+		}
+
+		.login-box-body {
+			background: #2b2a27 !important;
+		}
+
+		.selfSepPa, .selfSepPa2 {
+			margin-top: 50px;
+			margin-bottom: 30px;
+			height: 4px;
+			border-top: 2px solid rgba(0, 0, 0, 0.5) !important;
+		}
+
+		.selfSepPa2{
+			margin-top: 20px;
+		}
+
+		.selfSep {
+			height: 4px;
+			border-top: 2px solid rgba(255, 255, 255, 0.08) !important;
+			padding: 2em 20px 0 !important;
+		}
+
+		.login-logo {
+			margin: 0 0 0.1em;
+			text-align: center;
+			text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+		}
+
+		.login-logo span {
+			color: #ead8a0 !important;
+		}
+
+		input {
+			resize: none !important;
+			height: 45px !important;
+			line-height: 34px !important;
+			background: #212121 !important;
+			font-size: 13px !important;
+			text-shadow: 0 1px 1px #000 !important;
+			border: 1px solid #141414 !important;
+			border-bottom: 1px solid #555658 !important;
+			padding: 12px 12px !important;
+			color: #ffffff !important;
+			-webkit-border-radius: 5px !important;
+			border-radius: 5px !important;
+			-webkit-box-shadow: inset 1px 1px 2px 1px rgba(0, 0, 0, 0.32) !important;
+			box-shadow: inset 1px 1px 2px 1px rgba(0, 0, 0, 0.32) !important;
+			font-family: "Microsoft YaHei", tahoma, arial, helvetica, sans-serif !important;
+			margin: 0px !important;
+			-webkit-transition: none !important;
+			-moz-transition: none !important;
+			-o-transition: none !important;
+			transition: none !important;
+		}
+
+		.loginBtn {
+			background: rgba(162, 107, 20, 0.3) !important;
+			padding: 8px 10px 6px !important;
+			border-radius: 0.4em !important;
+			-moz-border-radius: 0.4em !important;
+			-webkit-border-radius: 0.4em !important;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) !important;
+			-moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) !important;
+			-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4) !important;
+			font-size: larger !important;
+			color: #e89b21 !important;
+			margin-top: 30px;
+		}
+
+		.passwordDiv {
+			margin-top: 30px;
+		}
+
+		.form-control-feedback{
+			width: 45px!important;
+			height: 45px!important;
+			line-height: 45px!important;
+		}
+	</style>
+</head>
+<body class="hold-transition login-page">
+
+<div class="login-box">
+	<div class="login-logo">
+		<span><b>工业大数据监控及调优平台</b></span>
+	</div>
+	<div class="selfSepPa">
+		<div class="selfSep"></div>
+	</div>
+	<div class="login-box-body">
+		<form action="#" method="post">
+			<div class="form-group has-feedback">
+				<input id=username type="email" class="form-control" placeholder="用户名">
+				<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			</div>
+			<div class="form-group has-feedback passwordDiv">
+				<input	id=password type="password" class="form-control" placeholder="密码">
+				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<button id=login_btn type="button" class="btn loginBtn btn-block btn-flat" >登录</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="selfSepPa2">
+		<div class="selfSep"></div>
+	</div>
+</div>
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="plugins//bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+</html>

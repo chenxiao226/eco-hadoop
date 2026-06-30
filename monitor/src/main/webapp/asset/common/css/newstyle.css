@@ -1,0 +1,92 @@
+@charset ="UTF-8";
+.tree {margin: 0;padding: 0;background-color:#f2f2f2;overflow: hidden;}
+    /*隐藏input*/
+    .tree li input{position: absolute;left: 0;opacity: 0;z-index: 2;cursor: pointer;height: 1em;width:1em;top: 0;}
+    /*所有菜单项设置统一样式*/
+    .tree li {position: relative;list-style: none;}
+    /*一级菜单加下边线*/
+    .tree>li{border-bottom: 1px solid #d9d9d9;}
+    /*给有子菜单的菜单项添加背景图标*/
+  /*  .tree li label {max-width:999px;cursor: pointer;display: block;margin:0 0 0 -50px;padding: 15px 10px 15px 70px;background: url(../../images/cp-detail-arrow-b.png) no-repeat right center;background-position:95% 50%;white-space:nowrap;overflow:hidden;text-overflow: ellipsis; }*/
+    .tree li label:hover,li label:focus{background-color:#a7a7a7;color:#fff;}
+    /*清除所有展开的子菜单的display*/
+    .tree li input + ol{display: none;}
+    /*当input被选中时，给所有展开的子菜单设置样式*/
+    .tree input:checked + ol {padding-left:14px;height: auto;display: block;}
+    .tree input:checked + ol > li { height: auto;}
+    /*子菜单项样式：缩进、间距、椭圆圈*/
+    .tree input:checked + ol > li > a {
+        display: block;
+        margin: 4px 6px;
+        padding: 5px 12px;
+        border-radius: 20px;
+        background-color: #e8e8e8;
+        color: #333;
+        text-decoration: none;
+        font-size: 12px;
+        transition: background-color 0.2s;
+    }
+    .tree input:checked + ol > li > a:hover {
+        background-color: #c0c0c0;
+        color: #000;
+    }
+    .tree input:checked + ol > li > a label {
+        cursor: pointer;
+        display: block;
+        margin: 0;
+        padding: 0;
+        background: none;
+        font-size: 12px;
+    }
+    .tree input:checked + ol > li > a:hover label {
+        background-color: transparent;
+        color: #000;
+    }
+    /*末层菜单为A标签，设置样式*/
+    .tree li.file a{margin:0 -10px 0 -50px;padding: 15px 20px 15px 70px;text-decoration:none;display: block;color:#000;white-space:nowrap;overflow:hidden;text-overflow: ellipsis;}
+    .tree li.file a:hover,li.file a:focus{background-color:#a7a7a7;color:#fff;}
+    /*不同层级的菜单字体大小不同*/
+    .tree .foldertop{font-size: 16px;color:#000;margin-top:40px;}
+    .tree .folderOne{font-size: 16px;color:#000}
+    .tree .folderTwo{font-size:14px;color:#000;display:block;text-align:center;}
+    .tree .folderThree{font-size:10px;color:#000}
+   table.basetable td{
+		text-align:center;
+		font-size:12px;
+		color:#FFFFFF;。
+		padding-bottom:3px;
+		padding-top:3px
+		}
+	tr.basehead td{
+	text-align: center;
+	font-size: 14px;
+	color: #FFFFFF
+		}
+	 #ttable tr:nth-child(odd) {
+            background-color: #1E2A4C /* green, 10% alpha */
+        }
+        #ttable tr:nth-child(even) {
+            background-color: #142540 /* red, 30% alpha */
+        }
+	a.basea hover{
+		color:#FFFFFF;
+		text-decoration:none;
+		}
+
+		.head-menu a:link{
+			color:#FFF;
+			text-decoration:none;
+			}
+			.head-menu a:active{
+			color:#FFF;
+			text-decoration:none;
+			}
+			.head-menu a:hover{
+			color:#FFF;
+			text-decoration:none;
+			}
+
+			.head-menu a:visited{
+			color:#FFF;
+			text-decoration:none;
+			}
