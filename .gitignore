@@ -1,0 +1,32 @@
+# Local editor and agent traces
+.claude/
+.codex/
+.agents/
+.idea/
+.vscode/
+
+# Python caches and runtime artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.bak
+*.bak*
+.pytest_cache/
+.mypy_cache/
+
+# Training logs and intermediate checkpoints
+events.out.tfevents*
+model_0*.pth
+model_1*.pth
+vis_model_final*.jpg
+
+# Raw Hadoop logs are too large for the repository.
+hadoop_running_data_process/original_data/
+hadoop_running_data_process/temp-hadoop/
+
+# Local upload/staging folders
+github_upload/
+
+# OS files
+.DS_Store
+Thumbs.db

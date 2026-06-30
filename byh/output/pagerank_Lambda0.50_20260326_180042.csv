@@ -1,0 +1,3 @@
+Task_Name,Lambda_Perf,Epoch,Best_Energy_Avg,Energy_Improvement_Percent,Best_RunTime_Avg,RunTime_Change_Percent,Energy_Time_Ratio,No_Improve_Epochs,Converged,Training_Time
+pagerank,0.5,0,9306.6240234375,0.0,286.3028564453125,0.0,32.50622134542058,0,False,2026-03-26 18:00:42
+1,5841.71875,37.230528113219094,206.1029510498047,-28.012261697719744,28.343692898353268,0,False,0.5

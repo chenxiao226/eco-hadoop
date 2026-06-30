@@ -1,0 +1,17 @@
+We added a parameter-attribution experiment to rule out the possibility that the
+observed speedup is merely due to an accidentally poor baseline. For each task,
+we select the measured configuration whose predicted energy is closest to the
+pre-optimization energy used in the end-to-end experiment, and then compute exact
+Shapley values over the nine tunable parameters by evaluating all 2^9 mixed
+configurations with the trained CPU/IO and active-power models.
+
+For the representative I/O-intensive case (NNBench), the dominant changes are:
+- Merge Factor: 0.70 -> 0.60, which reduces predicted energy by 416.8 J.
+- Spill Percent: 1.00 -> 0.66, which reduces predicted energy by 384.0 J.
+- JVM Heap: 230 -> 553, which reduces predicted energy by 339.9 J.
+
+The selected baseline exemplar lies at percentile 27.1
+of the measured candidate-energy distribution, where lower is better;
+therefore the baseline is not the worst measured configuration. We include the
+full attribution table for the original six workloads in
+parameter_attribution_values.csv.

@@ -1,0 +1,7 @@
+task,type,node,initial_energy_avg,optimized_energy_avg,improvement_pct,converge_epoch,best_param_1,best_param_2,best_param_3,best_param_4,best_param_5,best_param_6,best_param_7,best_param_8,best_cpu_frequency,best_predicted_energy
+TeraSort,IO,slave1,8980.4756,8175.2783,8.97,6,47,0.67,183,0.59,0.55,474,0,0,1800,8169.0845
+PiEstimator,CPU,slave1,8210.2871,6664.6245,18.83,10,100,0.9,300,1.0,0.9,999,1,1,3200,6655.0234
+PageRank,Mixed,master,9306.6240,7709.0391,17.17,6,61,0.73,214,0.70,0.64,615,1,1,2200,7708.9014
+Sort,CPU,slave1,7018.7144,4863.5249,30.71,6,54,0.69,197,0.64,0.60,545,0,0,2000,4856.2852
+Grep,CPU,slave1,8084.0796,7169.0830,11.32,6,53,0.69,197,0.64,0.60,550,1,1,2000,7168.8809
+NNBench,IO,slave1,12426.8428,8631.0029,30.55,7,58,0.71,204,0.66,0.60,553,1,0,2000,8373.3643
