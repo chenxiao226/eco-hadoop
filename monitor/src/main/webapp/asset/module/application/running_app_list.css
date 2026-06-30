@@ -1,0 +1,32 @@
+.see-detail-span{
+    cursor: pointer;
+}
+.centerPos{
+    text-align: center;
+}
+
+#nodeDetailTemplate{
+    display: none;
+}
+
+.nodeDetailLittleBox{
+    box-shadow: 0 0 0 !important;
+    margin-bottom: 0px;
+}
+
+.noMarginBottom{
+    margin-bottom: 0px;
+}
+
+.trackingUrlBox{
+    border-top: 1px solid #d8d8d8!important;
+}
+
+.detailBox{
+	box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+	margin-bottom: 0px;
+}
+
+.odd,.even{
+	background-color: #e6e5ea!important;
+}

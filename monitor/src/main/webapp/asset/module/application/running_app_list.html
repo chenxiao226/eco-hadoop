@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Running Applications</title>
+    <base href="/monitor/asset/"/>
+    <script src="common/js/commonHeadPack.js"></script>
+    <link rel="stylesheet" href="module/application/running_app_list.css">
+</head>
+<body style="background:#f2f2f2;" class="hold-transition sidebar-mini">
+<script src="common/js/header.js"></script>
+<script src="common/js/slider.js"></script>
+
+<div style="background:#f2f2f2;position:absolute;left:220px;top:75px;width:calc(100% - 220px);bottom:0px">
+<div class="content-wrapper">
+  <div style="background:#f2f2f2;position:absolute;left:0%;top:0px;width:100%;">
+
+    <section class="content-header">
+      <h1>Running Applications</h1>
+      <!-- breadcrumb hidden -->
+    </section>
+
+    <section class="content">
+      <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#tab-mapreduce" data-toggle="tab">MapReduce Jobs</a></li>
+        </ul>
+        <div class="tab-content">
+
+          <div class="tab-pane active" id="tab-mapreduce">
+            <div class="row">
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-aqua"><i class="fa fa-play"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Running</span>
+                    <span id="mrRunningNum" class="info-box-number">--</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-red"><i class="fa fa-times"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Failed</span>
+                    <span id="mrFailedNum" class="info-box-number">--</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-yellow"><i class="fa fa-stop"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Killed</span>
+                    <span id="mrKilledNum" class="info-box-number">--</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                  <span class="info-box-icon bg-green"><i class="fa fa-check"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Finished</span>
+                    <span id="mrFinishedNum" class="info-box-number">--</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="box box-success">
+              <div class="box-body">
+                <table id="appListTable" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>App ID</th>
+                      <th>User</th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Progress</th>
+                      <th>Start Time</th>
+                      <th>Elapsed Time</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- detail template (hidden) -->
+            <div id="nodeDetailTemplate" style="display:none;">
+              <div class="box box-solid detailBox">
+                <div class="box-body" style="padding:6px;">
+                  <div class="row" style="margin:0;">
+                    <div class="col-md-4" style="padding:4px;">
+                      <dl class="dl-horizontal noMarginBottom" style="margin:0;font-size:12px;">
+                        <dt style="width:110px;">Tracking URL:</dt><dd style="margin-left:120px;word-break:break-all;" class="m_trackingUrl">N/A</dd>
+                        <dt style="width:110px;">Container Logs:</dt><dd style="margin-left:120px;word-break:break-all;" class="m_amContainerLogs">N/A</dd>
+                        <dt style="width:110px;">AM HTTP:</dt><dd style="margin-left:120px;word-break:break-all;" class="m_amHostHttpAddress">N/A</dd>
+                      </dl>
+                    </div>
+                    <div class="col-md-4" style="padding:4px;">
+                      <dl class="dl-horizontal noMarginBottom" style="margin:0;font-size:12px;">
+                        <dt style="width:90px;">Queue:</dt><dd style="margin-left:100px;" class="m_queue">N/A</dd>
+                        <dt style="width:90px;">Alloc MB:</dt><dd style="margin-left:100px;" class="m_allocatedMB">N/A</dd>
+                        <dt style="width:90px;">VCores:</dt><dd style="margin-left:100px;" class="m_allocatedVCores">N/A</dd>
+                        <dt style="width:90px;">Containers:</dt><dd style="margin-left:100px;" class="m_runningContainers">N/A</dd>
+                      </dl>
+                    </div>
+                    <div class="col-md-4" style="padding:4px;">
+                      <dl class="dl-horizontal noMarginBottom" style="margin:0;font-size:12px;">
+                        <dt style="width:110px;">Mem Seconds:</dt><dd style="margin-left:120px;" class="m_memorySeconds">N/A</dd>
+                        <dt style="width:110px;">VCore Seconds:</dt><dd style="margin-left:120px;" class="m_vcoreSeconds">N/A</dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+                <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+<script src="common/js/footer.js"></script>
+</div>
+
+<script src="common/js/commonJSPack.js"></script>
+<script src="plugins/echarts/echarts.js"></script>
+<script src="module/application/running_app_list.js"></script>
+</body>
+</html>

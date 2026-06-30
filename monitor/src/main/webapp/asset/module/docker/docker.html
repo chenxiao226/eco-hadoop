@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <base href="/monitor/asset/"/>
+    <!-- 所有页面公用CSS和Head信息 -->
+    <script src="common/js/commonHeadPack.js"></script>
+    <link rel="stylesheet" href="module/docker/docker.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <!-- 顶部导航 -->
+    <script src="common/js/header.js"></script>
+
+    <!-- 左侧功能列表，包含logo和菜单 -->
+    <script src="common/js/slider.js"></script>
+
+    <!-- 主体内容 -->
+    <div class="content-wrapper">
+
+        <!-- 内容头 -->
+        <section class="content-header">
+            <h1>
+                docker状态
+            </h1><!-- breadcrumb hidden -->
+        </section>
+
+        <!-- 内容体 -->
+        <section class="content">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-success">
+						<div class="box-header with-border">
+							<i class="fa fa-diamond"></i>
+							<h3 class="box-title">docker状态总览</h3>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-6">
+									<dl class="dl-horizontal">
+										<dt>运行CPU数：</dt>
+										<dd id="dockerCpuNum">N/A</dd>
+										<dt>CPU时钟周期：</dt>
+										<dd id="dockerperiod">N/A</dd>																								
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<dl class="dl-horizontal">
+										<dt>主机名：</dt>
+										<dd id="masterHost">N/A</dd>	
+										<dt>运行容器数量：</dt>
+										<dd id="dockerContainerNum">N/A</dd>								
+										<!-- <dt>总虚拟内存大小：</dt>
+										<dd id="masterTotalMem">N/A</dd> -->
+									</dl>
+								</div>
+							</div>
+						</div>
+						<!-- /.box-body -->
+					</div>
+				</div>
+			</div>
+            <div class="box box-success">
+				<!-- <div class="box-header with-border">
+					<i class="fa fa-sitemap"></i>
+					<h3 class="box-title">容器信息</h3>
+				</div> -->
+               <!--  <div class="box-body">
+					<table id="dockerListTable" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>应用名</th>
+                            <th>容器id</th>
+                            <th>命名空间</th>
+                            <th>CPU数</th>
+                           	<th>GPU数</th>
+                            <th>内存总量</th>
+                            <th>磁盘总量</th>
+                            <th>创建时间</th>
+                            <th>详情</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                /.box-body
+            </div> -->
+
+            <!-- 详情模板 -->
+            <div id="nodeDetailTemplate">
+                <div class="box box-solid box-success">
+                    <div class="box-header">
+                        <h3 class="box-title rowBoxTitle">节点详情</h3>
+                        <div class="box-tools pull-right refreshBtn">
+                            <span class="btn btn-default"><i class="fa fa-refresh"></i> 刷新</span>
+                        </div>
+                    </div>
+                    <div class="box-body">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="box box-solid nodeDetailLittleBox">
+									<div class="box-header with-border centerPos">
+										<i class="fa fa-microchip"></i>
+										<h3 class="box-title text-red">CPU相关</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<dl class="dl-horizontal">
+											<dt>总可用核心：</dt>
+											<dd class="cpuNum">N/A</dd>
+											<dt>CPU使用率：</dt>
+											<dd class="cpusTotalusage">N/A</dd>
+											<dt>用户应用中断率：</dt>
+											<dd class="cpusBreakdownUser">N/A</dd>
+											<dt>系统中断率：</dt>
+											<dd class="cpuBreakdownSystem">N/A</dd>
+											<dt>core0 使用率：</dt>
+											<dd class="cpuscore0Usage">N/A</dd>
+											<dt>core1 使用率：</dt>
+											<dd class="cpuscore1Usage">N/A</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="box box-solid nodeDetailLittleBox">
+									<div class="box-header with-border centerPos">
+										<i class="fa fa-fw fa-hdd-o"></i>
+										<h3 class="box-title text-red">内存相关</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<dl class="dl-horizontal">
+											<!-- <dt>总可用空间：</dt>
+											<dd class="memTotal">N/A</dd> -->
+											<dt>内存使用空间：</dt>
+											<dd class="memUsage">N/A</dd>
+											<dt>cache使用空间：</dt>
+											<dd class="memCacheUsage">N/A</dd>
+											<dt>实际使用物理内存：</dt>
+											<dd class="memRss">N/A</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="box box-solid nodeDetailLittleBox">
+											<div class="box-header with-border centerPos">
+												<i class="fa fa-fw fa-cubes"></i>
+												<h3 class="box-title text-red">进程相关</h3>
+											</div>
+											<!-- /.box-header -->
+											<div class="box-body">
+												<dl class="dl-horizontal">
+													<dt>IO等待进程数：</dt>
+													<dd class="nr_io_wait">N/A</dd>
+													<dt>就绪进程数：</dt>
+													<dd class="nr_running">N/A</dd>
+													<dt>休眠进程数：</dt>
+													<dd class="nr_sleeping">N/A</dd>
+													<dt>中止进程数：</dt>
+													<dd class="nr_stopped">N/A</dd>
+													<dt>CPU不可中断进程数：</dt>
+													<dd class="nr_uninterruptible">N/A</dd>
+												</dl>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="pieChart" style="width: 100%; height: 150px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+                    <div class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 尾部信息，包含版权版本等 -->
+    <script src="common/js/footer.js"></script>
+</div>
+
+<!-- 所有页面公用的JS -->
+<script src="common/js/commonJSPack.js"></script>
+<script src="plugins/echarts/echarts.js"></script>
+<script src="module/docker/docker.js"></script>
+</body>
+</html>

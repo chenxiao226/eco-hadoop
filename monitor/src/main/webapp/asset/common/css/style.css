@@ -1,0 +1,20 @@
+html, body { overflow: hidden; }
+
+menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a{
+    border-left-color: #f39c12!important;
+    cursor: default!important;
+}
+
+.fontSize40 {
+    font-size: 36px!important;
+}
+
+.main-header .navbar {
+    /*background-color: #646b6f!important;*/
+    background-color: #225471!important;
+}
+
+.main-header .logo {
+    /*background-color: #585f63!important;*/
+    background-color: #1d4256!important;
+}

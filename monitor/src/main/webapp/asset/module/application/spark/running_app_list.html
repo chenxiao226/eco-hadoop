@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>运行中的Spark应用</title>
+    <base href="/monitor/asset/"/>
+    <!-- 所有页面公用CSS和Head信息 -->
+    <script src="common/js/commonHeadPack.js"></script>
+    <link rel="stylesheet" href="module/application/spark/running_app_list.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <!-- 顶部导航 -->
+    <script src="common/js/header.js"></script>
+
+    <!-- 左侧功能列表，包含logo和菜单 -->
+    <script src="common/js/slider.js"></script>
+
+    <!-- 主体内容 -->
+    <div class="content-wrapper">
+
+        <!-- 内容头 -->
+        <section class="content-header">
+            <h1>
+				Spark运行应用监测
+                <small>集群Spark应用列表</small>
+            </h1><!-- breadcrumb hidden -->
+        </section>
+
+        <!-- 内容体 -->
+        <section class="content">
+            <div class="box box-success">
+                <div class="box-body">
+					<table id="appListTable" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>任务id</th>
+                            <th>提交用户</th>
+                            <th>名称</th>
+                            <th>提交时间</th>
+                            <th>已运行时间</th>
+							<th>详情</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+            <!-- 详情模板 -->
+            <div id="nodeDetailTemplate">
+                <div class="box box-solid box-success">
+					<div class="box-header">
+						<h3 class="box-title rowBoxTitle">Job列表</h3>
+						<div class="box-tools pull-right refreshBtn">
+							<span class="btn btn-default"><i class="fa fa-refresh"></i> 刷新</span>
+						</div>
+					</div>
+                    <div class="box-body jobListContent">
+
+                    </div>
+                    <div class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+
+			<!-- Job内容模板 -->
+			<div id="jobTemplate">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="box box-solid nodeDetailLittleBox">
+							<div class="box-body">
+								<dl class="dl-horizontal noMarginBottom">
+									<dt>名称：</dt>
+									<dd class="job_name">N/A</dd>
+									<dt>提交时间：</dt>
+									<dd class="submission_time">N/A</dd>
+									<dt>Job ID：</dt>
+									<dd class="job_id">N/A</dd>
+									<dt>Job进度：</dt>
+									<dd class="job_progress">N/A</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="box box-solid nodeDetailLittleBox">
+							<div class="box-body">
+								<dl class="dl-horizontal noMarginBottom">
+									<dt>任务总数：</dt>
+									<dd class="num_tasks">N/A</dd>
+									<dt>活跃任务数：</dt>
+									<dd class="num_active_tasks">N/A</dd>
+									<dt>完成任务数：</dt>
+									<dd class="num_completed_tasks">N/A</dd>
+									<dt>跳过任务数：</dt>
+									<dd class="num_skipped_tasks">N/A</dd>
+									<dt>失败任务数：</dt>
+									<dd class="num_failed_tasks">N/A</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="box box-solid nodeDetailLittleBox">
+							<div class="box-body">
+								<dl class="dl-horizontal noMarginBottom">
+									<dt>stage数：</dt>
+									<dd class="stage_count">N/A</dd>
+									<dt>活跃stage数：</dt>
+									<dd class="num_active_stages">N/A</dd>
+									<dt>完成stage数：</dt>
+									<dd class="num_completed_stages">N/A</dd>
+									<dt>跳过stage数：</dt>
+									<dd class="num_skipped_stages">N/A</dd>
+									<dt>失败stage数：</dt>
+									<dd class="num_failed_stages">N/A</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+					<!--<div class="col-md-12">-->
+						<!--<div class="box box-solid nodeDetailLittleBox trackingUrlBox">-->
+							<!--<div class="box-body">-->
+								<!--<dl class="dl-horizontal">-->
+									<!--<dt>追踪UI：</dt>-->
+									<!--<dd class="m_trackingUI">N/A</dd>-->
+									<!--<dt>追踪地址：</dt>-->
+									<!--<dd class="m_trackingUrl">N/A</dd>-->
+									<!--<dt>应用容器日志：</dt>-->
+									<!--<dd class="m_amContainerLogs">N/A</dd>-->
+									<!--<dt>应用容器HTTP地址：</dt>-->
+									<!--<dd class="m_amHostHttpAddress">N/A</dd>-->
+								<!--</dl>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			</div>
+        </section>
+
+    </div>
+
+    <!-- 尾部信息，包含版权版本等 -->
+    <script src="common/js/footer.js"></script>
+</div>
+
+<!-- 所有页面公用的JS -->
+<script src="common/js/commonJSPack.js"></script>
+<script src="plugins/echarts/echarts.js"></script>
+<script src="module/application/spark/running_app_list.js"></script>
+</body>
+</html>

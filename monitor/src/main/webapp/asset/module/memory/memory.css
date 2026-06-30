@@ -1,0 +1,12 @@
+#memChart {
+	width: 100%;
+	height: 420px;
+}
+
+#memInfoTable tr,th{
+	text-align: center!important;
+}
+
+.noBoxBottomMargin{
+	margin-bottom: 0;
+}

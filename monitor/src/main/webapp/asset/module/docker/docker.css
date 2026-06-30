@@ -1,0 +1,14 @@
+.see-detail-span{
+    cursor: pointer;
+}
+.centerPos{
+    text-align: center;
+}
+
+#nodeDetailTemplate{
+    display: none;
+}
+
+.nodeDetailLittleBox{
+    box-shadow: 0 0 0 !important;
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>RL Training</title>
+<base href="/monitor/asset/" />
+<script src="common/js/commonHeadPack.js"></script>
+<link rel="stylesheet" href="module/rl/rl.css">
+</head>
+<body style="background:#f2f2f2;" class="hold-transition sidebar-mini">
+<script src="common/js/header.js"></script>
+<script src="common/js/slider.js"></script>
+
+<div style="background:#f2f2f2;position:absolute;left:220px;top:75px;width:calc(100% - 220px);bottom:0px">
+<div class="content-wrapper">
+  <div style="background:#f2f2f2;position:absolute;left:0;top:0;width:100%;">
+
+    <section class="content-header">
+      <h1>RL Optimizer <small>Training</small></h1>
+    </section>
+
+    <section class="content">
+
+      <!-- Main row: Config (left) + 2×2 Charts (right) -->
+      <div class="row" style="display:flex;flex-wrap:wrap;align-items:stretch;margin-bottom:0;">
+
+        <!-- Training Configuration (blue) -->
+        <div class="col-md-4" style="display:flex;flex-direction:column;">
+          <div class="box box-primary" style="flex:1;display:flex;flex-direction:column;margin-bottom:0;">
+            <div class="box-header with-border">
+              <h3 class="box-title">Training Configuration</h3>
+            </div>
+            <div class="box-body" style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+              <div>
+                <!-- Task + Node -->
+                <div class="row">
+                  <div class="col-xs-7">
+                    <div class="form-group">
+                      <label>Task</label>
+                      <select id="taskSelect" class="form-control">
+                        <option value="">-- Select Task --</option>
+                        <option value="pi">Pi Estimation</option>
+                        <option value="pagerank">PageRank</option>
+                        <option value="sort">Sort</option>
+                        <option value="terasort">TeraSort</option>
+                        <option value="NNBench">NNBench</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xs-5">
+                    <div class="form-group">
+                      <label>Node</label>
+                      <select id="nodeSelect" class="form-control">
+                        <option value="master">master</option>
+                        <option value="slave1">slave1</option>
+                        <option value="slave2">slave2</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- Lambda -->
+                <div class="form-group">
+                  <label>Lambda &lambda; (Penalty Coefficient)</label>
+                  <input id="lambdaSelect" type="number" class="form-control" value="0.5" min="0" max="1" step="0.01" placeholder="e.g. 0.5">
+                </div>
+                <!-- epsilon -->
+                <div class="form-group">
+                  <label>epsilon &epsilon; (Convergence Threshold)</label>
+                  <input id="epsilonInput" type="number" class="form-control" value="0.01" min="0.0001" max="1" step="0.001" placeholder="e.g. 0.01">
+                </div>
+                <!-- theta -->
+                <div class="form-group">
+                  <label>theta &theta; (Patience Period)</label>
+                  <input id="thetaInput" type="number" class="form-control" value="5" min="1" max="50" step="1" placeholder="e.g. 5">
+                </div>
+              </div>
+              <!-- JAR Upload -->
+              <div class="form-group" style="margin-top:10px;border-top:1px solid #eee;padding-top:10px;">
+                <label><i class="fa fa-upload"></i> Submit Custom Workload JAR</label>
+                <!-- hidden native input — avoids browser-locale Chinese text -->
+                <input id="jarFileInput" type="file" accept=".jar" style="display:none;">
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <button type="button" id="btnChooseFile" class="btn btn-default btn-sm" style="white-space:nowrap;">
+                    <i class="fa fa-folder-open"></i> Choose File
+                  </button>
+                  <span id="jarFileName" style="flex:1;font-size:12px;color:#888;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">No file selected</span>
+                  <button id="btnUploadJar" class="btn btn-warning btn-sm" style="white-space:nowrap;">
+                    <i class="fa fa-cloud-upload"></i> Submit
+                  </button>
+                </div>
+                <div id="jarStatusBox" style="display:none;margin-top:6px;font-size:12px;padding:6px 10px;border-radius:4px;background:#fffbe6;border:1px solid #ffe58f;color:#8a6900;">
+                  <i class="fa fa-spinner fa-spin"></i> <span id="jarStatusText"></span>
+                </div>
+              </div>
+
+              <div>
+                <div class="form-group" style="margin-bottom:6px;">
+                  <button id="btnStart" class="btn btn-primary btn-block">
+                    <i class="fa fa-play"></i> Start Training
+                  </button>
+                  <button id="btnStop" class="btn btn-danger btn-block" style="display:none;margin-top:6px;">
+                    <i class="fa fa-stop"></i> Stop Training
+                  </button>
+                  <button id="btnDebug" class="btn btn-default btn-block" style="display:none;margin-top:6px;">
+                    <i class="fa fa-terminal"></i> View Debug Info
+                  </button>
+                </div>
+                <div id="statusBox" class="alert alert-info" style="display:none;margin-bottom:0;"></div>
+                <pre id="debugBox" style="display:none;margin-top:8px;max-height:160px;overflow-y:auto;font-size:11px;background:#1e1e1e;color:#d4d4d4;padding:8px;border-radius:4px;white-space:pre-wrap;word-break:break-all;"></pre>
+                <div id="summaryBox" style="display:none;margin-top:8px;">
+                  <table class="table table-condensed" style="margin-bottom:0;font-size:12px;">
+                    <tr><td style="width:55%">Initial Energy</td><td id="sumInitEnergy">--</td></tr>
+                    <tr><td>Final Energy</td>  <td id="sumFinalEnergy">--</td></tr>
+                    <tr><td>Improvement</td>   <td id="sumImprove">--</td></tr>
+                    <tr><td>Converged</td>     <td id="sumConverged">--</td></tr>
+                    <tr><td>Total Iters</td>   <td id="sumIters">--</td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: 2×2 chart grid (always visible) -->
+        <div class="col-md-8" style="display:flex;flex-direction:column;gap:8px;">
+
+          <!-- Top row: Loss (full width) -->
+          <div style="display:flex;flex:1;gap:8px;min-height:330px;">
+
+            <!-- Training Loss Curve (green) -->
+            <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+              <div class="box box-success" style="flex:1;display:flex;flex-direction:column;margin-bottom:0;">
+                <div class="box-header with-border" style="padding:8px 10px;">
+                  <h3 class="box-title" style="font-size:13px;">Training Loss Curve</h3>
+                  <div class="box-tools pull-right">
+                    <span id="trainingBadge" class="label label-warning" style="display:none;">TRAINING</span>
+                  </div>
+                </div>
+                <div class="box-body" style="flex:1;padding:6px;">
+                  <div id="lossChart" style="height:280px;"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom row: Energy charts -->
+          <div style="display:flex;flex:1;gap:8px;min-height:330px;">
+
+            <!-- Energy Before vs After (teal) -->
+            <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+              <div class="box box-info" style="flex:1;display:flex;flex-direction:column;margin-bottom:0;">
+                <div class="box-header with-border" style="padding:8px 10px;">
+                  <h3 class="box-title" style="font-size:13px;">Energy: Before vs After</h3>
+                </div>
+                <div class="box-body" style="flex:1;padding:6px;">
+                  <div id="energyChart" style="height:280px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Energy per Epoch (red) -->
+            <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+              <div class="box box-danger" style="flex:1;display:flex;flex-direction:column;margin-bottom:0;">
+                <div class="box-header with-border" style="padding:8px 10px;">
+                  <h3 class="box-title" style="font-size:13px;">Energy per Epoch</h3>
+                </div>
+                <div class="box-body" style="flex:1;padding:6px;"><div id="epochEnergyChart" style="height:280px;"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div><!-- end col-md-8 -->
+
+      </div><!-- end main row -->
+
+    </section>
+  </div>
+</div>
+<script src="common/js/footer.js"></script>
+</div>
+
+<!-- ── Hadoop Submit Modal ─────────────────────────────────────────── -->
+<div id="hadoopModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+     background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:6px;width:440px;box-shadow:0 8px 32px rgba(0,0,0,0.25);overflow:hidden;">
+
+    <!-- Step 1: Confirm -->
+    <div id="modalStep1">
+      <div style="background:#337ab7;padding:14px 18px;color:#fff;font-size:14px;font-weight:600;">
+        <i class="fa fa-server"></i>&nbsp; Submit to Hadoop Cluster
+      </div>
+      <div style="padding:20px 18px 10px;">
+        <p style="margin:0 0 6px;font-size:14px;">Would you like to start the Hadoop cluster task?</p>
+        <p id="modalJarName" style="margin:0;font-size:12px;color:#888;"></p>
+      </div>
+      <div style="padding:10px 18px 18px;display:flex;justify-content:flex-end;gap:8px;">
+        <button id="modalCancelBtn" class="btn btn-default btn-sm">Cancel</button>
+        <button id="modalYesBtn"    class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Yes</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Command input -->
+    <div id="modalStep2" style="display:none;">
+      <div style="background:#337ab7;padding:14px 18px;color:#fff;font-size:14px;font-weight:600;">
+        <i class="fa fa-terminal"></i>&nbsp; Enter Cluster Command
+      </div>
+      <div style="padding:20px 18px 10px;">
+        <label style="font-size:13px;margin-bottom:4px;display:block;">Task Name:</label>
+        <input id="modalTaskName" type="text" class="form-control" style="font-size:12px;margin-bottom:12px;" placeholder="e.g. nnbench">
+        <label style="font-size:13px;margin-bottom:4px;display:block;">Please enter a command:</label>
+        <input id="modalCmdInput" type="text" class="form-control" style="font-family:monospace;font-size:12px;">
+        <p style="margin:6px 0 0;font-size:11px;color:#aaa;">Command will be submitted to the cluster.</p>
+      </div>
+      <div style="padding:10px 18px 18px;display:flex;justify-content:flex-end;gap:8px;">
+        <button id="modalBackBtn"   class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</button>
+        <button id="modalSubmitBtn" class="btn btn-success btn-sm"><i class="fa fa-play"></i> Submit</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Cluster notification bar (shown after submission) ──────────── -->
+<div id="clusterNotice" style="display:none;position:fixed;top:75px;left:220px;
+     right:0;z-index:9998;padding:10px 20px;background:#d9edf7;border-bottom:2px solid #31708f;
+     color:#31708f;font-size:13px;">
+  <i class="fa fa-info-circle"></i>&nbsp;
+  <strong>The Hadoop cluster is currently processing jobs.</strong>
+  &nbsp;Task will appear in the dropdown when data collection is complete.
+  <button id="clusterNoticeClose" class="close" style="color:#31708f;opacity:0.7;margin-top:-2px;">&times;</button>
+</div>
+
+<script src="common/js/commonJSPack.js"></script>
+<script src="plugins/echarts/echarts.js"></script>
+<script src="module/rl/training.js"></script>
+</body>
+</html>

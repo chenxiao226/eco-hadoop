@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<base href="/monitor/asset/" />
+<script src="common/js/commonHeadPack.js"></script>
+<link rel="stylesheet" href="module/cpu/cpu.css">
+</head>
+<body style="background:#f2f2f2;"class="hold-transition  sidebar-mini ">
+	<script src="common/js/header.js"></script>
+	<script src="common/js/slider.js"></script>
+	<div style="background:#f2f2f2;position:absolute;left:220px;top:75px;width:calc(100% - 220px);bottom:0px">
+	<div>
+	<!-- <div class="wrapper"> -->
+		
+
+		<div class="content-wrapper">
+		  <div style="background:#f2f2f2;position:absolute;left:0%;top:0px;width:100%;">	
+			<section class="content-header">
+				<h1>
+					CPU Monitoring<small>Cluster CPU Resources</small>
+<!--					CPU monitoring<small>Cluster CPU resources</small>-->
+				</h1><!-- breadcrumb hidden -->
+			</section>
+			<section class="content">
+			<div class="row">
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-maroon"><i class="fa fa-fw fa-bullseye"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-text">CPU(s)</span>
+							<span class="info-box-number fontSize40" id="cpuNum">4</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-red"><i class="fa fa-fw fa-bolt"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-text">CPU Usage</span>
+							<span class="info-box-number fontSize40" id="cpuIdle2">N/A</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-green"><i class="fa fa-fw fa-tasks"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-text">Total Processes</span>
+							<span class="info-box-number fontSize40" id="procTatalNum">N/A</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="info-box">
+						<span class="info-box-icon bg-yellow"><i class="fa fa-fw fa-play"></i></span>
+						<div class="info-box-content">
+							<span class="info-box-text">Running Processes</span>
+							<span class="info-box-number fontSize40" id="procRunningNum">N/A</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="box">
+						<div id="cpu_ratio_usage" style="width:100%;height:220px;"></div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="box">
+						<div id="cpu_ratio_system" style="width:100%;height:220px;"></div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="box">
+						<div id="cpu_ratio_user" style="width:100%;height:220px;"></div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<div class="box">
+						<div id="cpu_ratio_wio" style="width:100%;height:220px;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="box">
+						<div id="cpu_proc_total" style="width: 100%; height: 320px;"></div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="box">
+						<div id="cpu_proc_run" style="width: 100%; height: 320px;"></div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+		</section>
+		</div>
+		</div>
+		<script src="common/js/footer.js"></script>
+	</div>
+	</div>
+	<script src="common/js/commonJSPack.js"></script>
+	<script src="plugins/echarts/echarts.js"></script>
+	<script src="module/cpu/cpu.js"></script>
+	<script src="module/cpu/cpu_ratio.js"></script>
+	<script src="module/cpu/cpu_proc.js"></script>
+</body>
+</html>

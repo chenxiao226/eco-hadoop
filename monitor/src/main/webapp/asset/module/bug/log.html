@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<base href="/monitor/asset/" />
+<!-- 所有页面公用CSS和Head信息 -->
+<script src="common/js/commonHeadPack.js"></script>
+
+<!-- 与datatable有关的CSS -->
+<link rel="stylesheet" href="plugins/datatables/bootstrap-table.css">
+<!-- 日期有关的CSS -->
+<link rel="stylesheet"
+	href="plugins/datetime/bootstrap-datetimepicker.min.css">
+<!-- 与datatable有关的CSS -->
+<link rel="stylesheet" href="plugins/datatables/bootstrap-table.css">
+<!-- 日期有关的CSS -->
+<link rel="stylesheet"
+	href="plugins/datetime/bootstrap-datetimepicker.min.css">
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+	<div class="wrapper">
+		<!-- 顶部导航 -->
+		<script src="common/js/header.js"></script>
+
+		<!-- 左侧功能列表，包含logo和菜单 -->
+		<script src="common/js/slider.js"></script>
+
+		<!-- 主体内容 -->
+		<div class="content-wrapper">
+
+			
+
+			<!-- 内容头 -->
+			<section class="content-header">
+				<h1>
+				故障检测
+                <small>列表</small>
+            </h1><!-- breadcrumb hidden -->
+				<ul id="myTab" class="nav nav-tabs" style="margin-top: 20px;">
+				<li id="rule"><a href="#namenode" data-toggle="tab">规则</a></li>
+				<li class="active"><a href="common/module/bug/log.html" data-toggle="tab">日志</a></li>
+				<li><a id="process" href="common/module/bug/process.html" data-toggle="tab">进程</a></li>
+			</ul>
+			</section>
+
+			<!-- 内容体 -->
+			<section class="content">
+				<!-- Info boxes -->
+				<div class="box ">
+					<div class="box-header with-border">
+						<form class="form-inline" role="form"
+							style="float: left; width: 100%" method="post" id="queryForm">
+
+							<div class="input-group oneConditionDiv">
+								<div class="input-group-addon">主机名称</div>
+								<input type="text" class="form-control" name="userName"
+									id="Name">
+							</div>
+
+							<div
+								class="input-group input-append date form_datetime oneConditionDiv">
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-clock-o"></i> 开始时间
+									</div>
+									<input id="startDate"
+										class="form-control pull-right layer-date" type="text"
+										readonly> <span class="add-on"><i
+										class="icon-remove"></i></span> <span class="add-on"><i
+										class="icon-calendar"></i></span>
+								</div>
+							</div>
+
+							<div
+								class="input-group input-append date form_datetime oneConditionDiv">
+								<div class="input-group-addon">
+									<i class="fa fa-clock-o"></i> 结束时间
+								</div>
+								<input id="endDate" class="form-control pull-right layer-date"
+									type="text" readonly> <span class="add-on"><i
+									class="icon-remove"></i></span> <span class="add-on"><i
+									class="icon-calendar"></i></span>
+							</div>
+
+							<div class="form-group">
+								<button type="button" id="queryBtn" class="btn btn-default">
+									查询</button>
+							</div>
+						</form>
+					</div>
+					<div class="box ">
+						<div class="box-body">
+							<table id="logListTable"
+								class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>时间</th>
+										<th>机器名</th>
+										<th>异常系统</th>
+										<th>异常进程</th>
+										<th>异常类型</th>
+										<th>是否确认</th>
+										<th>详情</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.box-body -->
+				</div>
+			</section>
+
+		</div>
+		<div class="modal fade" id="alertContentModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">故障详情</h4>
+					</div>
+					<div class="modal-body">
+						<p class="modalContent"> N/A </p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 尾部信息，包含版权版本等 -->
+		<script src="common/js/footer.js"></script>
+	</div>
+	<!-- 所有页面公用的JS -->
+	<script src="common/js/commonJSPack.js"></script>
+	<!-- datatable有关的js -->
+	<!-- <script src="plugins/datatables/jquery.dataTables.min.js"></script> -->
+	<script src="plugins/datatables/bootstrap-table.js"></script>
+	<!-- <script src="plugins/datatables/dataTables.bootstrap.min.js"></script> -->
+	<script src="plugins/datatables/bootstrap-table-zh-CN.js"></script>
+	<!-- 日期有关的CSS -->
+	<script src="plugins/datetime/bootstrap-datetimepicker.js"></script>
+	<script src="plugins/datetime/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="plugins/datetime/bootstrap-datetimepicker.zh-CN.js"></script>
+	<!-- 编写的JS -->
+	<script src="module/bug/log_list.js"></script>
+</body>
+</html>
